@@ -1,18 +1,21 @@
 this.MixerView = BaseView.extend({
-  template: _.template($('#mixer-template').html()),
+  template: function(){ return _.template($('#mixer-template').html()); },
 
   events: {
     'change .gain [type=range]': 'setGain',
     'click #play': 'play',
     'click #stop': 'stop',
-    'click .cue-button.start': 'startCue',
-    'click .cue-button.stop': 'stopCue',
-    'click .cue-button.abort': 'abortCue'
+    'mousedown .cue-button.start': 'startCue',
+    'mousedown .cue-button.stop': 'stopCue',
+    'mousedown .cue-button.abort': 'abortCue'
   },
 
   afterRender: function(){
     this.$gainRangeElement = this.$('.gain [type=range]');
     this.$cueButton = this.$('.cue-button');
+
+    this.cueStatus = 'start';
+    this.startMixerInterface();
   },
 
   setGain: function(){
@@ -30,17 +33,63 @@ this.MixerView = BaseView.extend({
 
   startCue: function(){
     this.$cueButton.removeClass('start').addClass('stop');
+    this.cueStatus = 'stop';
     this.model.startCue();
+    console.log('inStart');
   },
 
   stopCue: function(){
     this.$cueButton.removeClass('stop').addClass('abort');
+    this.cueStatus = 'abort';
     this.model.stopCue();
+    console.log('inStop');
   },
 
   abortCue: function(){
     this.$cueButton.removeClass('abort').addClass('start');
+    this.cueStatus = 'start';
     this.model.abortCue();
+    console.log('inAbort');
+  },
+
+  startMixerInterface: function(){
+    XBOXControllers.getControllers();
+    XBOXControllers.startStatusPolling();
+
+    var coolDowns = {
+      green: Date.now()
+    }
+
+    XBOXControllers.onUpdate = function(){
+      var controller = XBOXControllers.controllers[this.controllerIndex];
+
+      // CUE BUTTON
+      if(controller.buttons.green){
+        var now = Date.now();
+        if(now > coolDowns.green){
+          switch(this.cueStatus){
+            case 'start':
+              this.startCue();
+              break;
+            case 'stop':
+              this.stopCue();
+              break;
+            case 'abort':
+              this.abortCue();
+              break;
+          }
+          coolDowns.green = now + 100;
+        }
+      }
+
+      // CROSSFADE
+      var crossfade = controller.axes.crossfade;
+      if(this.lastCrossFade != crossfade){
+        this.lastCrossFade = crossfade;
+        this.$gainRangeElement.val(1 - ((crossfade + 1) / 2));
+        this.setGain();
+      }
+    }.bind(this);
   }
 
 });

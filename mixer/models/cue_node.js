@@ -9,24 +9,20 @@ window.CueNode = Backbone.Model.extend({
     var context = this.get('context');
     var source = context.createBufferSource();
     source.buffer = this.get('buffer');
+    // source.gain.value = this.get('mixer').get('gain');
     source.connect(context.destination);
     this.set('source', source);
   },
 
-  startCue: function(){
-    this.set('startCue', this.get('context').currentTime - this.get('offset'));
-  },
-
-  endCue: function(){
-    this.set('endCue', this.get('context').currentTime - this.get('offset'));
+  duration: function(){
+    var startCue = this.get('startCue');
+    var endCue = this.get('endCue');
+    return endCue - startCue;
   },
 
   play: function(){
     this.stop();
-    var startCue = this.get('startCue');
-    var endCue = this.get('endCue');
-    var duration = endCue - startCue;
-    this.get('source').start(0, startCue, duration);
+    this.get('source').start(0, startCue, this.duration());
   },
 
   loop: function(){

@@ -57,7 +57,9 @@ window.BufferedNode = Backbone.Model.extend({
   },
 
   stop: function(){
-    this.set('stoppedAt', this.get('context').currentTime);
+    var stoppedAt = this.get('context').currentTime - this.get('mixer').resetCueTime();
+    this.set('stoppedAt', stoppedAt);
+
     this.get('source').stop(0);
   }
 });

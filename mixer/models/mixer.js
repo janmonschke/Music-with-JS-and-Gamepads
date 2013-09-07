@@ -25,22 +25,39 @@ this.Mixer = Backbone.Model.extend({
     this.get('track').stop();
   },
 
+  cuePlaybackStartedAt: 0,
+  cuePlaybackStoppedAt: 0,
+  cueTimeSum: 0,
   startCue: function(){
     var context = this.get('context');
     var cue = new CueNode({ context: context, buffer: this.get('track').get('buffer') });
-    cue.set({startCue: context.currentTime });
+    cue.set({startCue: context.currentTime - this.cueTimeSum });
     this.set('cue', cue);
   },
 
   stopCue: function(){
     var cue = this.get('cue');
-    cue.set({endCue: this.get('context').currentTime });
+    cue.set({endCue: this.get('context').currentTime - this.cueTimeSum });
     this.stop();
+
+    this.cuePlaybackStartedAt = Date.now();
     cue.loop();
   },
 
   abortCue: function(){
+    // stop the timing and calculate new sum
+    this.cuePlaybackStoppedAt = Date.now();
+    var duration = this.cuePlaybackStoppedAt - this.cuePlaybackStartedAt;
+    this.cueTimeSum += (duration / 1000);
+
+    // stop the cue and play the original track
     this.get('cue').abort();
     this.play();
+  },
+
+  resetCueTime: function(){
+    this.cuePlaybackStartedAt = 0;
+    this.cuePlaybackStoppedAt = 0;
+    return this.cueTimeSum;
   }
 });
