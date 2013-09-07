@@ -1,4 +1,4 @@
-window.CueNode = Backbone.Model.extend({
+window.CueNode = BufferedNode.extend({
   defaults: {
     startCue: 0,
     endCue: 1,
@@ -9,7 +9,7 @@ window.CueNode = Backbone.Model.extend({
     var context = this.get('context');
     var source = context.createBufferSource();
     source.buffer = this.get('buffer');
-    // source.gain.value = this.get('mixer').get('gain');
+    source.gain.value = this.get('mixer').get('gain');
     source.connect(context.destination);
     this.set('source', source);
   },
@@ -45,5 +45,6 @@ window.CueNode = Backbone.Model.extend({
     var source = this.get('source');
     source.stop(0);
     source.disconnect();
+    this.destroy();
   }
 });

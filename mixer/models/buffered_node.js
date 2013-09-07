@@ -33,6 +33,7 @@ window.BufferedNode = Backbone.Model.extend({
     this.get('context').decodeAudioData(arrayBuffer, function(buffer) {
       this.set('buffer', buffer);
       deferred.resolve();
+      console.log('decoded!');
     }.bind(this), function(e) {
       deferred.reject('Error decoding file', e);
     });
@@ -41,8 +42,7 @@ window.BufferedNode = Backbone.Model.extend({
   adjustGain: function(){
     var gain = this.get('mixer').get('gain');
     var source = this.get('source');
-    console.log(this.get('mixer').get('gain'))
-    if(source)
+    if(source && source.playbackState == source.PLAYING_STATE)
       source.gain.value = this.get('mixer').get('gain');
   },
 
@@ -61,5 +61,9 @@ window.BufferedNode = Backbone.Model.extend({
     this.set('stoppedAt', stoppedAt);
 
     this.get('source').stop(0);
+  },
+
+  destroy: function(){
+    this.stopListening();
   }
 });

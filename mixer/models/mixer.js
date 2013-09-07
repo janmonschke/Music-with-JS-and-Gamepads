@@ -30,7 +30,7 @@ this.Mixer = Backbone.Model.extend({
   cueTimeSum: 0,
   startCue: function(){
     var context = this.get('context');
-    var cue = new CueNode({ context: context, buffer: this.get('track').get('buffer') });
+    var cue = new CueNode({ context: context, buffer: this.get('track').get('buffer'), mixer: this });
     cue.set({startCue: context.currentTime - this.cueTimeSum });
     this.set('cue', cue);
   },
@@ -51,7 +51,8 @@ this.Mixer = Backbone.Model.extend({
     this.cueTimeSum += (duration / 1000);
 
     // stop the cue and play the original track
-    this.get('cue').abort();
+    var cue = this.get('cue');
+    cue.abort();
     this.play();
   },
 
