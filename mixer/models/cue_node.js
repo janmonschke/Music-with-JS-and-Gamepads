@@ -22,7 +22,7 @@ window.CueNode = Backbone.Model.extend({
   },
 
   play: function(){
-    this.stopCue();
+    this.stop();
     var startCue = this.get('startCue');
     var endCue = this.get('endCue');
     var duration = endCue - startCue;
@@ -30,7 +30,7 @@ window.CueNode = Backbone.Model.extend({
   },
 
   loop: function(){
-    this.stopCue();
+    this.stop();
     var source = this.get('source');
     var start = this.get('startCue');
     source.loop = true;
@@ -43,5 +43,11 @@ window.CueNode = Backbone.Model.extend({
     var source = this.get('source');
     if(source) source.stop(0);
     this.setUpSourceNode();
+  },
+
+  abort: function(){
+    var source = this.get('source');
+    source.stop(0);
+    source.disconnect();
   }
 });

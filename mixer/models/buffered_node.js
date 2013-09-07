@@ -2,7 +2,8 @@ window.BufferedNode = Backbone.Model.extend({
   defaults: {
     location: '',
     context: null,
-    buffer: null
+    buffer: null,
+    stoppedAt: 0
   },
 
   url: function(){ return this.get('location') },
@@ -51,11 +52,12 @@ window.BufferedNode = Backbone.Model.extend({
     source.buffer = this.get('buffer');
     source.connect(context.destination);
     source.gain.value = this.get('mixer').get('gain');
-    source.start(0);
+    source.start(0, this.get('stoppedAt'));
     this.set('source', source);
   },
 
   stop: function(){
+    this.set('stoppedAt', this.get('context').currentTime);
     this.get('source').stop(0);
   }
 });
