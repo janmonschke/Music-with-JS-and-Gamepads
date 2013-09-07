@@ -1,0 +1,76 @@
+<html>
+<head>
+  <title>Beatinator</title>
+  <script type="text/javascript" src="libs/jquery.js"></script>
+  <script type="text/javascript" src="libs/underscore.js"></script>
+  <script type="text/javascript" src="libs/backbone.js"></script>
+</head>
+<body>
+
+  
+
+  <div id="mixer"></div>
+
+  <script type="template/underscore" id="mixer-template">
+    <div id="mixer-container">
+    <button id="play">Play</button>
+    <button id="stop">Stop</button>
+    <div class="left-side">
+      <div class="effects"></div>
+      <div class="gain">
+        <input type="range" min="0" max="1" value="0.5" step=".05" />
+      </div>
+    </div>
+    <div class="right-side"></div>
+  </div>
+  </script>
+
+
+  <script type="text/javascript" src="models/buffered_node.js"></script>
+  <script type="text/javascript" src="models/cue_node.js"></script>
+  <script type="text/javascript" src="models/mixer.js"></script>
+  <script type="text/javascript" src="views/base_view.js"></script>
+  <script type="text/javascript" src="views/mixer_view.js"></script>
+  <script type="text/javascript">
+    // window.c1 = new webkitAudioContext();
+
+    // var node1 = new BufferedNode({
+    //   location: 'songs/Someone.mp3',
+    //   context: c1
+    // });
+
+    // node1.fetch().done(function(){
+    //   // window.source = context.createBufferSource();
+    //   // source.buffer = node1.get('buffer');
+    //   // source.loop = false;
+    //   // source.buffer.gain = .5;
+    //   // source.connect(context.destination);
+    //   // source.start(0);
+    //   // var cue = new CueNode({ context: c1, buffer: node1.get('buffer'), startCue: 47.5, endCue: 52.8 });
+    //   // cue.loopCue();
+
+    //   $('#stop').click(function(){
+    //     cue.stopCue();
+    //   });
+
+    //   window.c2 = new webkitAudioContext();
+
+    //   var cue2 = new CueNode({ context: c2, buffer: node1.get('buffer'), startCue: 120, endCue: 130 });
+    //   //cue2.loopCue();
+
+    // });    
+
+    var mixer = new Mixer({ context: new webkitAudioContext()});
+    var node1 = new BufferedNode({
+      location: 'songs/Someone.mp3',
+      mixer: mixer
+    });    
+    mixer.setTrack(node1);
+    var mixerView = new MixerView({ el: $('#mixer'), model: mixer });
+    mixerView.render();
+
+  </script>
+
+
+</body>
+</html>

@@ -1,0 +1,23 @@
+<html>
+<head>
+  <title>Beatinator</title>
+  <script type="text/javascript" src="libs/jquery.js"></script>
+  <script type="text/javascript" src="libs/underscore.js"></script>
+  <script type="text/javascript" src="libs/backbone.js"></script>
+  <script type="text/javascript" src="beatinator.js"></script>
+  <script type="text/javascript">
+    var context = new webkitAudioContext();
+    var looper = new Looper(context);
+
+    looper.on('change:nextBeatTime', function(){
+      console.log('change:nextBeatTime', looper.get('currentBeat'), looper.get('nextBeatTime'));
+    })
+
+    looper.start();
+    context.startRendering();
+  </script>
+</head>
+<body>
+
+</body>
+</html>
