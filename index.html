@@ -16,6 +16,7 @@
 
 		<link rel="stylesheet" href="css/reveal.min.css">
 		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+		<link rel="stylesheet" href="css/custom.css" id="theme">
 
 		<!-- For syntax highlighting -->
 		<link rel="stylesheet" href="lib/css/zenburn.css">
@@ -71,6 +72,30 @@
 					<aside class="notes">
 						When contrast is too low: CTRL + ALT + CMD + 8 to the resque
 					</aside>
+				</section>
+
+				<section>
+					<h2>Let's talk about Gamepads and Gaming</h2>
+
+					<ul class="spaced">
+						<li class="fragment">More complex games are written in JS (Canvas, WebGL)</li>
+						<li class="fragment">Controlling games: W, A, S, D or arrows + mouse + keys</li>
+						<li class="fragment">Problem: digital vs. analog</li>
+					</ul>
+
+					<aside class="notes">
+						<ul>
+							<li>digital: only zero and one values when pressing a buttons</li>
+							<li>analog: values between zero and one, where zero is minimum and one is maximum</li>
+							<li>granular intensity, axes on buttons</li>
+							<li>e.g. speed of character </li>
+							<li>mocking is possible by adjusting speed based on time a button is pressed</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<h2>GamePad API</h2>
 				</section>
 
 				<!-- Example of nested vertical slides -->
@@ -375,7 +400,7 @@ function linkify( selector ) {
 				controls: true,
 				progress: true,
 				history: true,
-				center: false,
+				center: true,
 
 				theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
 				transition: Reveal.getQueryHash().transition || 'default', // default/cube/page/concave/zoom/linear/fade/none
