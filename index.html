@@ -4,10 +4,10 @@
 	<head>
 		<meta charset="utf-8">
 
-		<title>reveal.js - The HTML Presentation Framework</title>
+		<title>Making music with JavaScript and Gamepads</title>
 
-		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
-		<meta name="author" content="Hakim El Hattab">
+		<meta name="description" content="Making music with JavaScript and Gamepads - a presentation held at reject.js 2013">
+		<meta name="author" content="Jan Monschke">
 
 		<meta name="apple-mobile-web-app-capable" content="yes" />
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -61,8 +61,8 @@
 					<p class="fragment">+</p>
 					<p class="fragment">Gamepad API</p>
 					<p class="fragment">=</p>
-					<p class="fragment"><span style="color: #ff5e99;"><3 *</span></p>
-					<p class="fragment"><small>* both are drafts, examples only work in Chrome for now</small></p>
+					<p class="fragment"><span class="highlight"><3 *</span></p>
+					<p class="fragment"><small><span class="highlight">*</span> both are drafts, examples only work in Chrome for now</small></p>
 
 					<aside class="notes">
 						bleeding edge, exampels may outdate fast, for sake of simplicity Chrome only for now, sorry FF :(
@@ -76,7 +76,7 @@
 					<p>61 Hertz tone in slow motion</p>
 
 					<aside class="notes">
-						When contrast is too low: CTRL + ALT + CMD + 8 to the resque
+						When contrast is too low: CTRL + ALT + CMD + 8 to the rescue
 					</aside>
 				</section>
 
@@ -221,10 +221,94 @@
 					<h2>Let's play some music</h2>
 
 					<p>show a demo that plays a sound and the gamepad can manipulate it (use demo from HTW hackaday) and add sounds on button press, change playbackrate with one of the triggers</p>
+
+					<aside>
+						Let's combine the two APIs for a first time :)
+					</aside>
 				</section>
 
 				<section>
+					<h2>Let's talk about Gamepads again!</h2>
 
+					<p class="fragment">What exactly qualifies as a Gamepad?</p>
+					<blockquote class="fragment">"If it has a button, it is a Gamepad!<small>&trade;</small>"<span class="highlight">*</span></blockquote>
+					<p class="fragment"><small><span class="highlight">*</span> (assuming that your browser knows how to interface it)</small></p>
+
+					<aside class="notes">
+						<p>Wasn't that fun?</p>
+						<p>Unluckily gamepads like this one don't really qualify for music production, so what are the alternatives?</p>
+					</aside>
+
+				</section>
+
+				<section>
+					<h2>Introducing: DJ Hero turntable</h2>
+
+					<img src="images/djherogamepad.jpg" data-source="http://www.wiids.co.uk/wp-content/uploads/2009/06/dj-hero-controller-010.jpg">
+
+					<aside class="notes">
+						<p>DJ Hero is Guitar Hero with turntables</p>
+						<p>looks way more suited to music making, doesn't it? DESCRIBE BUTTONS!</p>
+						<p>The best part about it: the gamepad api is capable of dealing with it!</p>
+						<p>Let's see what we can do with it :)</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>dj.js</h2>
+
+					<p>Insert simple dj.js demo here, first with one song, then with two songs and two turntables, where I try to mix two songs....</p>
+
+					<aside class="notes">
+						<p>DISCLAIMER: no scratching!!!!! Will explain later!</p>
+						<p>explain functionality: gain, effects, cue-ing, tunrtable(-lock)</p>
+						<p>first time dj performance in front of anyone else but the wasps in my room :D</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>API problems (Web Audio API)</h2>
+				</section>
+
+				<section>
+					<h2>API problems (Gamepad API)</h2>
+
+				</section>
+
+				<section>
+					<h2>One more thing!</h2>
+
+					<aside class="notes">
+						<p>Unwrap the guitar!</p>
+						<p>Ask who has played guitar hero before</p>
+						<p>Ask for volunteer ;)</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>guitarhero.js</h2>
+
+					<p>add the guitar hero clone</p>
+
+					<aside class="notes">
+						<p>For some reason the Rockband drumkit didn't work, would've loved to have a band perform on stage ;)</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>Further Readings</h2>
+
+					<ul>
+						<li></li>
+					</ul>
+				</section>
+
+				<section>
+					<h1>THX so much for your attention!</h1>
+				</section>
+
+				<section>
+					<h1>You we're a great audience!</h1>
 				</section>
 
 			</div>

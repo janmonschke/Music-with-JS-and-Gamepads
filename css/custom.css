@@ -1,3 +1,11 @@
 ul.spaced li {
   margin-bottom: 15px;
 }
+
+p.fragment {
+  margin-bottom: 20px;
+}
+
+span.highlight{
+  color: #ff5e99;
+}
