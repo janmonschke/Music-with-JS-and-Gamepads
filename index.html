@@ -59,9 +59,15 @@
 					<h2>What to expect</h2>
 					<p class="fragment">Web Audio API</p>
 					<p class="fragment">+</p>
-					<p class="fragment">GamePad API</p>
+					<p class="fragment">Gamepad API</p>
 					<p class="fragment">=</p>
-					<p class="fragment"><span style="color: #ff5e99;"><3</span></p>
+					<p class="fragment"><span style="color: #ff5e99;"><3 *</span></p>
+					<p class="fragment"><small>* both are drafts, examples only work in Chrome for now</small></p>
+
+					<aside class="notes">
+						bleeding edge, exampels may outdate fast, for sake of simplicity Chrome only for now, sorry FF :(
+					</aside>
+
 				</section>
 
 				<section>
@@ -95,7 +101,33 @@
 				</section>
 
 				<section>
-					<h2>GamePad API</h2>
+					<h2>Gamepad API</h2>
+
+					<p class="big">Use all your favorite Gamepads with a standardized API!</p>
+
+					<p class="big">Yey! :)</p>
+
+				</section>
+
+				<section>
+					<h2>Gamepad API 101</h2>
+
+					<pre class="fragment"><code>
+var gamepads = navigator.webkitGetGamepads()
+					</code></pre>
+					<pre class="fragment"><code>
+var first = gamepads[0];
+					</code></pre>
+					<pre class="fragment"><code>
+console.log(first.buttons);
+					</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Short reminder: again the examples only work in chrome/webkit</li>
+						</ul>
+					</aside>
+
 				</section>
 
 				<!-- Example of nested vertical slides -->
