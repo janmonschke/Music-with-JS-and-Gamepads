@@ -113,21 +113,90 @@
 					<h2>Gamepad API 101</h2>
 
 					<pre class="fragment"><code>
-var gamepads = navigator.webkitGetGamepads()
+	var gamepads = navigator.webkitGetGamepads()
 					</code></pre>
 					<pre class="fragment"><code>
-var first = gamepads[0];
+	var firstPad = gamepads[0];
 					</code></pre>
 					<pre class="fragment"><code>
-console.log(first.buttons);
+	firstPad.buttons; // -> Array[17]
+					</code></pre>
+					<pre class="fragment"><code>
+	firstPad.buttons[0]; // -> 0
 					</code></pre>
 
 					<aside class="notes">
 						<ul>
 							<li>Short reminder: again the examples only work in chrome/webkit</li>
+							<li>Wow, what? 17 Buttons?</li>
+							<li>aaand we're digital again -> buttons are digital</li>
 						</ul>
 					</aside>
 
+				</section>
+
+
+				<section>
+					<h2>Gamepad API 101</h2>
+
+					<pre class="fragment"><code>
+	firstPad.axes; // -> Array[4]
+					</code></pre>
+
+					<pre class="fragment"><code>
+	firstPad.axes[0]; // -> 0.38765
+					</code></pre>
+
+					<aside class="notes">
+						<ul>
+							<li>Axes range from -1 to 1</li>
+							<li>this is where you get the precision</li>
+						</ul>
+					</aside>
+
+				</section>
+
+				<section>
+					<h2>But how am I supposed to know which button has which index?</h2>
+
+					<p class="fragment">It's standardized, look:</p>
+					<img class="fragment" src="images/gamepad_diagram.png" data-source="http://www.html5rocks.com/en/tutorials/doodles/gamepad/">
+
+					<aside class="notes">
+						<p>Zoom the image when presenting!!</p>
+						<ul>
+							<li>It's not possible to recall the arrangement, are they the same index for all gamepads out there? Yes!</li>
+							<li>It doesn't matter which gamepad you use (PS3, XBox etc)</li>
+						</ul>
+					</aside>
+				</section>
+
+				<section>
+					<section>
+						<h2>Did you notice something?</h2>
+					</section>
+					<section>
+
+						<pre><code>
+	var gamepads = navigator.webkitGetGamepads()
+
+	var firstPad = gamepads[0];
+
+	firstPad.buttons; // -> Array[17]
+
+	firstPad.buttons[0]; // -> 0
+						</code></pre>
+					</section>
+
+					<section>
+
+						<h2>It's not event-driven!</h2>
+
+						<aside class="notes">
+							<p>Not event driven? But why? How? What?</p>
+						</aside>
+
+					</section>
 				</section>
 
 				<!-- Example of nested vertical slides -->
