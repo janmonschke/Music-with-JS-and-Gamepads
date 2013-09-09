@@ -33,16 +33,51 @@
         looper: looper
       });
 
-      var drumMachineView = new DrumMachineView({el: $('#drum-machine'), model: drumMachine});
+      var drumMachineView = new DrumMachineView({el: $('#drum-machine'), model: drumMachine, looper: looper});
       drumMachineView.render();
 
       base.play();
-
-
-
       looper.start();
+
+      $(document.body).keyup(function(event){
+        var key = event.keyCode;
+        if(key == 68){
+          drumMachine.deftones();
+        }else if(key == 82){
+          drumMachine.reset();
+        }else if(key == 72){
+          drumMachine.hiphop();
+        }
+        console.log(event.keyCode)
+      })
     });
   </script>
+
+  <style type="text/css">
+    body{
+      font-family: sans-serif;
+      font-size: 17px;
+      background: #919BA5;
+    }
+
+    input[type=checkbox]{
+      margin: 3px;
+      width: 15px;
+      height: 15px;
+    }
+
+    span.highlight{
+      background: #bada55;
+      width: 20px;
+      height: 20px;
+    }
+
+    span:last-child{
+      margin-right: 10px;
+    }
+
+  </style>
+
 </head>
 <body>
   <div id="drum-machine"></div>

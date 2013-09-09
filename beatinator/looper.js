@@ -1,7 +1,7 @@
 this.Looper = Backbone.Model.extend({
   defaults: {
-    beats: 32,
-    bpm: 80,
+    beats: 16,
+    bpm: 120,
     isStopped: false,
     currentBeat: -1
   },
