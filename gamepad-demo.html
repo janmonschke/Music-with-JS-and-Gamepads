@@ -1,0 +1,51 @@
+<html>
+<head>
+  <title>Gamepad demo</title>
+</head>
+<body>
+
+  <canvas id="canvas" width="800" height="500"></canvas>
+
+  <script type="text/javascript">
+
+    var width = 800;
+    var height = 500;
+
+    var player = {
+      x: (width / 2),
+      y: 0,
+      width: 30,
+      height: 30,
+      xVelocity: 10,
+      yVelocity: 0
+    };
+
+    var context = document.getElementById('canvas').getContext('2d');
+
+    var update = function(){
+      if(player.x < width - player.width)
+        player.x += player.xVelocity;
+      else
+        player.x = width - player.width;
+    };
+
+    var draw = function(){
+      context.fillStyle = "#bada55";
+      context.fillRect(0, 0, width, height)
+
+      context.fillStyle = "#000000";
+      context.fillRect(player.x, height - player.height - player.y, player.width, player.height);
+    };
+
+    var updateAndDraw = function(){
+      update();
+      draw();
+      requestAnimationFrame(updateAndDraw);
+    };
+
+    updateAndDraw();
+
+  </script>
+
+</body>
+</html>
