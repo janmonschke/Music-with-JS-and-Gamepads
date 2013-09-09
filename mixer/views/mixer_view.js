@@ -6,7 +6,7 @@ this.MixerView = BaseView.extend({
     'click #play': 'play',
     'click #stop': 'stop',
     'mousedown .cue-button.start': 'startCue',
-    'mousedown .cue-button.stop': 'stopCue',
+    'mousedown .cue-button.stop': 'endCue',
     'mousedown .cue-button.abort': 'abortCue'
   },
 
@@ -38,10 +38,10 @@ this.MixerView = BaseView.extend({
     console.log('inStart');
   },
 
-  stopCue: function(){
+  endCue: function(){
     this.$cueButton.removeClass('stop').addClass('abort');
     this.cueStatus = 'abort';
-    this.model.stopCue();
+    this.model.endCue();
     console.log('inStop');
   },
 
@@ -72,7 +72,7 @@ this.MixerView = BaseView.extend({
               this.startCue();
               break;
             case 'stop':
-              this.stopCue();
+              this.endCue();
               break;
             case 'abort':
               this.abortCue();
