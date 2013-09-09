@@ -1,6 +1,6 @@
-window.Looper = Backbone.Model.extend({
+this.Looper = Backbone.Model.extend({
   defaults: {
-    beats: 16,
+    beats: 31,
     bpm: 80,
     isStopped: false,
     currentBeat: -1
@@ -17,7 +17,7 @@ window.Looper = Backbone.Model.extend({
     this.set({
       isStopped: false,
       lastTick: now,
-      nextBeatTime: Date.now() / 1000,
+      nextBeatTime: 0,
       lastBeatTime: 0
     }, {silent: false});
 
@@ -28,13 +28,13 @@ window.Looper = Backbone.Model.extend({
   tick: function(){
     var nextBeatTime = this.get('nextBeatTime');
 
-    if(nextBeatTime <= (Date.now() + 100) / 1000 ){
+    if(nextBeatTime <= this.context.currentTime + 0.1 ){
       // set to the next beat, and sanitize it
       var nextBeat = this.attributes.currentBeat + 1;
       if(nextBeat >= this.attributes.beats) nextBeat = 0;
 
-      console.log(nextBeatTime += this.get('secondsBetweenBeats'))
-      console.log('context time', this.context.currentTime)
+      nextBeatTime += this.get('secondsBetweenBeats');
+      console.log(this.get('secondsBetweenBeats'))
 
       this.set({
         currentBeat: nextBeat,
@@ -51,7 +51,7 @@ window.Looper = Backbone.Model.extend({
     var bpm = this.attributes.bpm;
 
     this.set({
-      secondsBetweenBeats: (60 / bpm),
+      secondsBetweenBeats: (60 / bpm) / 4,
       msBetweenBeats: (60 / bpm) * 1000
     })
   }

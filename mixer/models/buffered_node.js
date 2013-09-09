@@ -52,7 +52,8 @@ window.BufferedNode = Backbone.Model.extend({
     source.buffer = this.get('buffer');
     source.connect(context.destination);
     source.gain.value = this.get('mixer').get('gain');
-    if(!when){ when = 0; } else { when += context.currentTime }
+
+    if(!when){ when = 0; }
     source.start(when, this.get('stoppedAt') + this.get('mixer').get('skipped'));
     this.set('source', source);
   },

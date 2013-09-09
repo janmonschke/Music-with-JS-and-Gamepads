@@ -4,20 +4,52 @@
   <script type="text/javascript" src="libs/jquery.js"></script>
   <script type="text/javascript" src="libs/underscore.js"></script>
   <script type="text/javascript" src="libs/backbone.js"></script>
-  <script type="text/javascript" src="beatinator.js"></script>
+  <script type="text/javascript" src="../mixer/models/buffered_node.js"></script>
+  <script type="text/javascript" src="../mixer/models/mixer.js"></script>
+  <script type="text/javascript" src="looper.js"></script>
+  <script type="text/javascript" src="drum_machine.js"></script>
+  <script type="text/javascript" src="drum_machine_view.js"></script>
   <script type="text/javascript">
     var context = new webkitAudioContext();
     var looper = new Looper(context);
+    
+    var mixer = new Mixer({ context: context });
+    var base = new BufferedNode({context: context, location: '808-base.mp3', mixer: mixer});
+    var snare = new BufferedNode({context: context, location: 'snare.wav', mixer: mixer});
+    var kick = new BufferedNode({context: context, location: 'kick.wav', mixer: mixer});
+    var hatClosed = new BufferedNode({context: context, location: '808-hat-closed.wav', mixer: mixer});
+    var hatOpen = new BufferedNode({context: context, location: 'highhat-open.mp3', mixer: mixer});
 
     looper.on('change:nextBeatTime', function(){
-      console.log('change:nextBeatTime', looper.get('currentBeat'), looper.get('nextBeatTime'));
-    })
+      //console.log('change:nextBeatTime', looper.get('currentBeat'), looper.get('nextBeatTime'), context.currentTime);
 
-    looper.start();
-    context.startRendering();
+    });
+
+    $.when(base.fetch(), snare.fetch(), kick.fetch(), hatClosed.fetch()).done(function(){
+      var drumMachine = new DrumMachine({
+        context: context,
+        buffers: {
+          base: base,
+          snare: snare,
+          kick: kick,
+          hatClosed: hatClosed,
+          hatOpen: hatOpen
+        },
+        looper: looper
+      });
+
+      var drumMachineView = new DrumMachineView({el: $('#drum-machine'), model: drumMachine});
+      drumMachineView.render();
+
+      base.play();
+
+
+
+      looper.start();
+    });
   </script>
 </head>
 <body>
-
+  <div id="drum-machine"></div>
 </body>
 </html>

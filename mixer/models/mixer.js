@@ -71,6 +71,6 @@ this.Mixer = Backbone.Model.extend({
     remaining = (1 - remaining) * cueDuration;
     cue.abort(remaining);
     this.set('cue', null);
-    this.play(remaining);
+    this.play(remaining + this.get('context').currentTime);
   }
 });
