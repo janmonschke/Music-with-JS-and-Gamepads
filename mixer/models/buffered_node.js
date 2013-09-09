@@ -46,18 +46,19 @@ window.BufferedNode = Backbone.Model.extend({
       source.gain.value = this.get('mixer').get('gain');
   },
 
-  play: function(){
+  play: function(when){
     var context = this.get('context');
     var source = context.createBufferSource();
     source.buffer = this.get('buffer');
     source.connect(context.destination);
     source.gain.value = this.get('mixer').get('gain');
-    source.start(0, this.get('stoppedAt'));
+    if(!when){ when = 0; } else { when += context.currentTime }
+    source.start(when, this.get('stoppedAt') + this.get('mixer').get('skipped'));
     this.set('source', source);
   },
 
   stop: function(){
-    var stoppedAt = this.get('context').currentTime - this.get('mixer').resetCueTime();
+    var stoppedAt = this.get('context').currentTime - this.get('mixer').cueTimeSum;
     this.set('stoppedAt', stoppedAt);
 
     this.get('source').stop(0);

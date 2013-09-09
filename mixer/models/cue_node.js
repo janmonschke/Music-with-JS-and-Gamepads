@@ -41,10 +41,13 @@ window.CueNode = BufferedNode.extend({
     this.setUpSourceNode();
   },
 
-  abort: function(){
+  abort: function(when){
     var source = this.get('source');
-    source.stop(0);
-    source.disconnect();
+    var context = this.get('context');
+
+    if(!when){ when = 0; } else { when += context.currentTime }
+
+    source.stop(when);
     this.destroy();
   }
 });

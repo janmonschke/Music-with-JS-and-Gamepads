@@ -1,6 +1,7 @@
 this.Mixer = Backbone.Model.extend({
   defaults: {
-    gain: 1
+    gain: 1,
+    skipped: 0
   },
 
   minGain: 0,
@@ -17,12 +18,21 @@ this.Mixer = Backbone.Model.extend({
     }.bind(this));
   },
 
-  play: function(){
-    this.get('track').play();
+  play: function(when){
+    if(!when) when = 0;
+    this.get('track').play(when);
   },
 
   stop: function(){
     this.get('track').stop();
+  },
+
+  skip: function(seconds){
+    var skipped = this.get('skipped');
+    this.set('skipped', skipped + seconds);
+    this.stop();
+    this.get('track').set('stoppedAt', 0);
+    this.play();
   },
 
   cuePlaybackStartedAt: 0,
@@ -35,7 +45,7 @@ this.Mixer = Backbone.Model.extend({
     this.set('cue', cue);
   },
 
-  stopCue: function(){
+  endCue: function(){
     var cue = this.get('cue');
     cue.set({endCue: this.get('context').currentTime - this.cueTimeSum });
     this.stop();
@@ -47,18 +57,20 @@ this.Mixer = Backbone.Model.extend({
   abortCue: function(){
     // stop the timing and calculate new sum
     this.cuePlaybackStoppedAt = Date.now();
-    var duration = this.cuePlaybackStoppedAt - this.cuePlaybackStartedAt;
-    this.cueTimeSum += (duration / 1000);
+    var duration = (this.cuePlaybackStoppedAt - this.cuePlaybackStartedAt) / 1000;
+    this.cueTimeSum += duration;
+
+    this.cuePlaybackStartedAt = 0;
+    this.cuePlaybackStoppedAt = 0;
 
     // stop the cue and play the original track
     var cue = this.get('cue');
-    cue.abort();
-    this.play();
-  },
-
-  resetCueTime: function(){
-    this.cuePlaybackStartedAt = 0;
-    this.cuePlaybackStoppedAt = 0;
-    return this.cueTimeSum;
+    var cueDuration = cue.duration();
+    var remaining = duration / cueDuration; // 12.1 / 3 -> .1
+    remaining = remaining - Math.floor(remaining);
+    remaining = (1 - remaining) * cueDuration;
+    cue.abort(remaining);
+    this.set('cue', null);
+    this.play(remaining);
   }
 });
