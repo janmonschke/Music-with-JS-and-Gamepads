@@ -1,32 +1,74 @@
 <html>
 <head>
   <title>Gamepad demo</title>
+  <style type="text/css">
+    html, document, body, canvas{
+      margin: 0;
+      padding: 0;
+    }
+  </style>
 </head>
 <body>
 
-  <canvas id="canvas" width="800" height="500"></canvas>
+  <canvas id="canvas" width="900" height="600"></canvas>
 
   <script type="text/javascript">
 
-    var width = 800;
-    var height = 500;
+    var width = 900;
+    var height = 600;
 
     var player = {
       x: (width / 2),
-      y: 0,
-      width: 30,
-      height: 30,
-      xVelocity: 10,
+      y: (height / 2),
+      width: 10,
+      height: 10,
+      xVelocity: 0,
       yVelocity: 0
     };
 
     var context = document.getElementById('canvas').getContext('2d');
+    var threshold = .18;
+    var gravity = 1;
+
+    var maxXVelocity = 10;
+    var maxYVelocity = 10;
+
+    var xAxis = null;
+    var yAxis = null;
+    var aButton = 0;
 
     var update = function(){
-      if(player.x < width - player.width)
-        player.x += player.xVelocity;
-      else
-        player.x = width - player.width;
+      var gamepad = navigator.webkitGetGamepads()[0];
+      player.xVelocity = 0;
+      player.yVelocity = 0;
+
+      if(gamepad){
+        // update the players velocity based on the gamepad input
+        xAxis = gamepad.axes[0];
+        var thresholdXPassed = xAxis > threshold || xAxis < -threshold;
+        if(thresholdXPassed)
+          player.xVelocity = Math.round(xAxis * maxXVelocity);
+
+        yAxis = gamepad.axes[1];
+        var thresholdYPassed = yAxis > threshold || yAxis < -threshold;
+        if(thresholdYPassed)
+          player.yVelocity = Math.round(yAxis * maxYVelocity);
+
+        aButton = gamepad.buttons[0];
+        if(aButton){
+          player.width = 25;
+          player.height = 25;
+        } else {
+          player.width = 10;
+          player.height = 10;
+        }
+      }
+
+      // move the player on the x-axis
+      player.x += player.xVelocity;
+
+      // move the player on the x-axis
+      player.y -= player.yVelocity;
     };
 
     var draw = function(){
@@ -35,6 +77,11 @@
 
       context.fillStyle = "#000000";
       context.fillRect(player.x, height - player.height - player.y, player.width, player.height);
+
+      context.font = "bold 20px sans-serif";
+      context.fillText("x-axis: " + (xAxis? xAxis : 'none'), 10, 20);
+      context.fillText("y-axis: " + (yAxis? yAxis : 'none'), 10, 40);
+      context.fillText("a-button: " + aButton, 10, 60);
     };
 
     var updateAndDraw = function(){
