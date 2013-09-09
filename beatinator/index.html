@@ -17,15 +17,10 @@
     var base = new BufferedNode({context: context, location: '808-base.mp3', mixer: mixer});
     var snare = new BufferedNode({context: context, location: 'snare.wav', mixer: mixer});
     var kick = new BufferedNode({context: context, location: 'kick.wav', mixer: mixer});
-    var hatClosed = new BufferedNode({context: context, location: '808-hat-closed.wav', mixer: mixer});
+    var hatClosed = new BufferedNode({context: context, location: 'hat-closed.wav', mixer: mixer});
     var hatOpen = new BufferedNode({context: context, location: 'highhat-open.mp3', mixer: mixer});
 
-    looper.on('change:nextBeatTime', function(){
-      //console.log('change:nextBeatTime', looper.get('currentBeat'), looper.get('nextBeatTime'), context.currentTime);
-
-    });
-
-    $.when(base.fetch(), snare.fetch(), kick.fetch(), hatClosed.fetch()).done(function(){
+    $.when(base.fetch(), snare.fetch(), kick.fetch(), hatClosed.fetch(), hatOpen.fetch()).done(function(){
       var drumMachine = new DrumMachine({
         context: context,
         buffers: {

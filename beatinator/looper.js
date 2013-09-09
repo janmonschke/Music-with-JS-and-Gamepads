@@ -1,6 +1,6 @@
 this.Looper = Backbone.Model.extend({
   defaults: {
-    beats: 31,
+    beats: 32,
     bpm: 80,
     isStopped: false,
     currentBeat: -1
@@ -34,7 +34,6 @@ this.Looper = Backbone.Model.extend({
       if(nextBeat >= this.attributes.beats) nextBeat = 0;
 
       nextBeatTime += this.get('secondsBetweenBeats');
-      console.log(this.get('secondsBetweenBeats'))
 
       this.set({
         currentBeat: nextBeat,
