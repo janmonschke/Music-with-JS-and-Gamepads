@@ -44,6 +44,10 @@
 					<hr />
 					<h3>Reject.js 2013</h3>
 					<h4 class="fragment" class="highlight"><a href="http://2012.jsconf.eu/speaker/2012/08/24/javascript-is-the-new-punk-rock.html">(inspiration)</a></h4>
+
+					<aside class="notes">
+						I was lucky to be able to attend JSConf.eu last year and there was one talk that blew my mind. It was about Web Audio API and inspired me to talk here now! Thanks Stuart Memo!
+					</aside>
 				</section>
 
 				<section>
@@ -97,7 +101,7 @@
 
 					<aside class="notes">
 						<p>I just want to get the basics right.</p>
-						<p>when I stomp my feet, a pressure wave is created that oscillates and wanders through the ear into your ears</p>
+						<p>when I stomp my feet on the ground, a pressure wave is created that oscillates and wanders through the ear into your ears</p>
 					</aside>
 
 				</section>
@@ -115,6 +119,82 @@
 						When contrast is too low: CTRL + ALT + CMD + 8 to the rescue
 					</aside>
 				</section>
+
+				<section>
+					<h2>Let's oscillate!</h2>
+
+					<pre><code>var context = new webkitAudioContext();</code></pre>
+					<pre class="fragment"><code>var oscillator = context.createOscillator();</code></pre>
+					<pre class="fragment"><code>oscillator.type = 0; // -> sine </code></pre>
+					<pre class="fragment"><code>oscillator.frequency.value = 22000;</code></pre>
+					<pre class="fragment"><code>oscillator.connect(context.destination);</code></pre>
+					<pre class="fragment"><code>oscillator.noteOn(0);</code></pre>
+					<div class="fragment">
+						<button id="play22khz">Play 22kHz</button>
+						<button id="play61hz">Play 61Hz</button>
+						<button id="playFromRange">Play from range</button>
+						<input type="range" id="oscRange" value="200" min="0" max="2000" />
+						<select id="oscSelect">
+							<option value="0">Sine</option>
+							<option value="1">Square</option>
+							<option value="2">Sawtooth</option>
+							<option value="3">Triangle</option>
+						</select>
+						<button id="oscStop">Stop</button>
+					</div>
+
+					<aside class="notes">
+						<p>there are several forms of waves: sine, sawtooth, triangle</p>
+						<p>spot the biological error ;) -> humans can't hear 22kHz </p>
+					</aside>
+
+				</section>
+
+				<script type="text/javascript">
+					var oscContext = new webkitAudioContext();
+					var oscOscillator = null;
+					var oscSelect = document.getElementById('oscSelect');
+					var oscRange = document.getElementById('oscRange');
+
+					var playOsc = function(frequency){
+						stopOsc();
+						oscOscillator = oscContext.createOscillator();
+						oscOscillator.type = parseInt(oscSelect.value);
+						oscOscillator.frequency.value = frequency;
+						oscOscillator.connect(oscContext.destination);
+						oscOscillator.noteOn(0);
+					};
+
+					var stopOsc = function(){
+						if(oscOscillator) oscOscillator.noteOff(0);
+						oscOscillator = null;
+					};
+
+					document.getElementById('play22khz').addEventListener('click', function(){
+						playOsc(22000, 0);
+					});
+
+					document.getElementById('play61hz').addEventListener('click', function(){
+						playOsc(61, 0);
+					});
+
+					document.getElementById('playFromRange').addEventListener('click', function(){
+						playOsc(200, oscRange.value);
+					});
+
+					document.getElementById('oscStop').addEventListener('click', function(){
+						stopOsc();
+					});
+
+					oscSelect.addEventListener('change', function(){
+						if(oscOscillator) oscOscillator.type = parseInt(this.value);
+					});
+
+					oscRange.addEventListener('change', function(){
+						if(oscOscillator) oscOscillator.frequency.value = this.value;
+					});
+
+				</script>
 
 				<section>
 					<h2>Timing</h2>
