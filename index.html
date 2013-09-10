@@ -94,17 +94,11 @@
 					<aside class="notes">
 						<p>timing beats, songs, bits of songs</p>
 						<p>everyone hears that somethings's wrong in a song when beats are off just for some miliseconds </p>
-						<p>professional musicions even sometimes complain about delays on stage</p>
+						<p>professional musicians even sometimes complain about delays on stage</p>
 						<p>scientific fact: people can adopt to delays, when it's stable ;)</p>
 						<p></p>
 					</aside>
 				</section>
-
-zeitstrahl, abspielen in der zukunft mit when und delay
-
-					loop -start -end!! > loop specific parts of a buffer with no overhead code
-
-					setValueAtTime!!
 
 				<section>
 					<h2>Timing in Web Audio</h2>
@@ -147,6 +141,32 @@ zeitstrahl, abspielen in der zukunft mit when und delay
 						<p>NO MORE SETTIMEOUT!!!!</p>
 					</aside>
 				</section>	
+
+				<section>
+					<h2>Timing in Web Audio: Future Value(s)</h2>
+
+					<p>The API even allows to set values in the future:</p>
+
+					<pre class="fragment"><code>
+	// set the gain to .2 in 5 seconds
+	sourceNode.gain.setValueAtTime(.2, context.currentTime + 5);
+					</code></pre>
+
+					<pre class="fragment"><code>
+	// fade out
+	sourceNode.linearRampToValueAtTime(0, context.currentTime + 5);
+					</code></pre>
+
+					<p class="fragment">
+						<button id="setvalueattime">Set gain to .2 in five seconds</button>
+					</p>
+
+					<aside class="notes">
+						<p>gain = volume</p>
+						<p>linear, exponential, event own curves, but too complex to show now</p>
+					</aside>
+
+				</section>
 
 				<section>
 					<h2>Let's talk about Gamepads and Gaming</h2>
@@ -448,7 +468,13 @@ zeitstrahl, abspielen in der zukunft mit when und delay
 
 			document.getElementById('stopIn2s').addEventListener('click', function(){
 				source.stop(context.currentTime + 2);
-			})
+			});
+
+			document.getElementById('setvalueattime').addEventListener('click', function(){
+				playBuffer('rejects', 0, 0, 10);
+				source.gain.value = 2;
+				source.gain.setValueAtTime(.5, context.currentTime + 5);
+			});
 
 		</script>
 
