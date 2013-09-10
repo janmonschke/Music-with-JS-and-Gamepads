@@ -9,3 +9,8 @@ p.fragment {
 span.highlight{
   color: #ff5e99;
 }
+
+button{
+  padding: 10px;
+  font-size: 15px;
+}

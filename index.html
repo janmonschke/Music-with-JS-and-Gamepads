@@ -82,6 +82,73 @@
 				</section>
 
 				<section>
+					<h2>Timing</h2>
+
+					<ul class="spaced">
+						<li>Timing is key!</li>
+						<li class="fragment">before: setTimeout / requestAnimationFrame</li>
+						<li class="fragment">lots of offset-calculations</li>
+						<li class="fragment">inacurate</li>
+					</ul>
+
+					<aside class="notes">
+						<p>timing beats, songs, bits of songs</p>
+						<p>everyone hears that somethings's wrong in a song when beats are off just for some miliseconds </p>
+						<p>professional musicions even sometimes complain about delays on stage</p>
+						<p>scientific fact: people can adopt to delays, when it's stable ;)</p>
+						<p></p>
+					</aside>
+				</section>
+
+zeitstrahl, abspielen in der zukunft mit when und delay
+
+					loop -start -end!! > loop specific parts of a buffer with no overhead code
+
+					setValueAtTime!!
+
+				<section>
+					<h2>Timing in Web Audio</h2>
+
+					<ul class="spaced">
+						<li>Timing is relative to the current context!</li>
+						<li class="fragment"><pre><code>context.currentTime // -> time bar in seconds</code></pre></li>
+					</ul>
+
+					<img src="images/nyancat.gif" class="fragment">
+
+					<aside class="notes">
+						<p>context.currentTime is like a time bar, it starts once you play the first tune and will then go on forever...</p>
+
+					</aside>
+				</section>
+
+				<section>
+					<h2>Timing in Web Audio</h2>
+					<p>Let's start a buffer in 2 seconds</p>
+
+					<pre class="fragment"><code>
+	sourceNode.start(context.currentTime + 2);
+					</code></pre>
+
+
+					<pre class="fragment"><code>
+	sourceNode.start(when, offset, duration); // ouh yeah
+					</code></pre>
+
+					<p class="fragment">
+						<button id="playWith2sdelay">Play with 2s delay</button>
+						<button id="playWith43soffset">Play with some offset</button>
+						<button id="stopIn2s">Stop in 2s</button>
+					</p>
+
+					<aside class="notes">
+						<p>when: start at that time on the time bar, if < currentTime then starts immediately;; offset: offset in the current buffer</p>
+						<p>same goes for the stop method</p>
+						<p>NO MORE SETTIMEOUT!!!!</p>
+					</aside>
+				</section>	
+
+				<section>
 					<h2>Let's talk about Gamepads and Gaming</h2>
 
 					<ul class="spaced">
@@ -342,6 +409,46 @@
 					{ src: 'plugin/sources/sources.js', async: true }
 				]
 			});
+
+			var context = new webkitAudioContext();
+			var source = null;
+
+			var buffers = {};
+
+			var loadBuffer = function(location, bufferName){
+				var xhr = new XMLHttpRequest();
+		    xhr.open('GET', location, true);
+		    xhr.responseType = 'arraybuffer';
+		    xhr.onload = function(e) {
+		      context.decodeAudioData(xhr.response, function(buffer) {
+		      	buffers[bufferName] = buffer;
+		      });
+		    };
+		    xhr.send();
+			};
+
+			loadBuffer('mixer/songs/rick.mp3', 'rick');
+			loadBuffer('mixer/songs/wearetherejects.mp3', 'rejects');
+
+			var playBuffer = function(bufferName, when, offset, duration){
+				if(source) source.stop(0);
+				source = context.createBufferSource();
+		    source.buffer = buffers[bufferName];
+		    source.connect(context.destination);
+		    source.start(when + context.currentTime, offset, duration);
+			};
+
+			document.getElementById('playWith2sdelay').addEventListener('click', function(){
+				playBuffer('rick', 2, 0, 15);
+			});
+
+			document.getElementById('playWith43soffset').addEventListener('click', function(){
+				playBuffer('rick', 0, 43.9, 10);
+			});
+
+			document.getElementById('stopIn2s').addEventListener('click', function(){
+				source.stop(context.currentTime + 2);
+			})
 
 		</script>
 
