@@ -56,7 +56,7 @@ window.BufferedNode = Backbone.Model.extend({
   },
 
   play: function(when){
-    console.log('play: ' + this.get('location'))
+    // console.log('play: ' + this.get('location'))
     var context = this.get('context');
     var source = context.createBufferSource();
     source.buffer = this.get('buffer');

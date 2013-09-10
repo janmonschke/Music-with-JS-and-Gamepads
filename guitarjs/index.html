@@ -24,11 +24,13 @@
       var second = new BufferedNode({location: '2.mp3', mixer: mixer, context: context});
       var third = new BufferedNode({location: '3.mp3', mixer: mixer, context: context});
       var fourth = new BufferedNode({location: '4.mp3', mixer: mixer, context: context});
+      var drums = new BufferedNode({location: 'drums-3.mp3', mixer: mixer, context: context});
 
       var lastRed = 0;
       var lastYellow = 0;
       var lastBlue = 0;
       var lastOrange = 0;
+      var lastSelect = 0;
 
       var startOrStop = function(buffer, pressed, lastState){
         if(lastState == pressed) return;
@@ -39,7 +41,7 @@
         }
       };
 
-      $.when(first.fetch(), second.fetch(), third.fetch(), fourth.fetch()).done(function(){
+      $.when(first.fetch(), second.fetch(), third.fetch(), fourth.fetch(), drums.fetch()).done(function(){
         XBOXControllers.getControllers();
         XBOXControllers.startStatusPolling();
 
@@ -50,20 +52,23 @@
           var yellow = buttons.y;
           var blue = buttons.x;
           var orange = buttons.left_bumper;
-
+          var select = buttons.select;
 
           startOrStop(first, red, lastRed);
-
           startOrStop(second, yellow, lastYellow);
-
           startOrStop(third, blue, lastBlue);
-          
           startOrStop(fourth, orange, lastOrange);
+
+          if(select && !drums.isPlaying()){
+            drums.play()
+            drums.get('source').loop = true
+          }
 
           lastRed = red;
           lastYellow = yellow;
           lastBlue = blue;
           lastOrange = orange;
+          lastSelect = select;
         };        
       });
 
