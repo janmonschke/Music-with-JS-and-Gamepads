@@ -29,6 +29,11 @@ window.BufferedNode = Backbone.Model.extend({
     return deferred;
   },
 
+  isPlaying: function(){
+    var source = this.get('source');
+    return (source && source.playbackState == source.PLAYING_STATE);
+  },
+
   _processArrayBuffer: function(arrayBuffer, deferred){
     this.get('context').decodeAudioData(arrayBuffer, function(buffer) {
       this.set('buffer', buffer);
@@ -46,7 +51,12 @@ window.BufferedNode = Backbone.Model.extend({
       source.gain.value = this.get('mixer').get('gain');
   },
 
+  adjustSpeed: function(byValue){
+    this.get('source').playbackRate.value += byValue;
+  },
+
   play: function(when){
+    console.log('play: ' + this.get('location'))
     var context = this.get('context');
     var source = context.createBufferSource();
     source.buffer = this.get('buffer');
@@ -54,7 +64,7 @@ window.BufferedNode = Backbone.Model.extend({
     source.gain.value = this.get('mixer').get('gain');
 
     if(!when){ when = 0; }
-    source.start(when, this.get('stoppedAt') + this.get('mixer').get('skipped'));
+    source.start(when, this.get('stoppedAt'));
     this.set('source', source);
   },
 

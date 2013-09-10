@@ -56,16 +56,21 @@ this.MixerView = BaseView.extend({
     XBOXControllers.getControllers();
     XBOXControllers.startStatusPolling();
 
+    var allowTurntable = false;
+    var previousTurntableValue = null;
+
     var coolDowns = {
-      green: Date.now()
+      green: Date.now(),
+      red: Date.now()
     }
 
     XBOXControllers.onUpdate = function(){
       var controller = XBOXControllers.controllers[this.controllerIndex];
 
+      var now = Date.now();
+
       // CUE BUTTON
       if(controller.buttons.green){
-        var now = Date.now();
         if(now > coolDowns.green){
           switch(this.cueStatus){
             case 'start':
@@ -78,7 +83,7 @@ this.MixerView = BaseView.extend({
               this.abortCue();
               break;
           }
-          coolDowns.green = now + 100;
+          coolDowns.green = now + 150;
         }
       }
 
@@ -88,6 +93,21 @@ this.MixerView = BaseView.extend({
         this.lastCrossFade = crossfade;
         this.$gainRangeElement.val(1 - ((crossfade + 1) / 2));
         this.setGain();
+      }
+
+      // TURNTABLE
+      var turntable = controller.axes.turntable
+      if(allowTurntable && turntable != previousTurntableValue)
+        this.model.adjustSpeed(-turntable * 88)
+
+      previousTurntableValue = turntable;
+
+      // ENABLE TURNTABLE
+      if(controller.buttons.red){
+        if(now > coolDowns.red){
+          allowTurntable = !allowTurntable;
+          coolDowns.red = now + 200;
+        }
       }
     }.bind(this);
   }

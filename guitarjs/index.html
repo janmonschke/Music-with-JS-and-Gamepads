@@ -1,0 +1,75 @@
+<html>
+<head>
+  <title>Guitar.js</title>
+
+  <script type="text/javascript" src="../demolibs/jquery.js"></script>
+  <script type="text/javascript" src="../demolibs/underscore.js"></script>
+  <script type="text/javascript" src="../demolibs/backbone.js"></script>
+  <script type="text/javascript" src="../mixer/libs/xboxcontrollers.js"></script>
+  <script type="text/javascript" src="../mixer/models/buffered_node.js"></script>
+  <script type="text/javascript" src="../mixer/models/mixer.js"></script>
+  <script type="text/javascript" src="../beatinator/looper.js"></script>
+
+</head>
+<body>
+
+  <button id="letsrock">Let's rock</button>
+
+  <script type="text/javascript">
+    $(function(){
+
+      var context = new webkitAudioContext();
+      var mixer = new Mixer({context: context});
+      var first = new BufferedNode({location: '1-2.mp3', mixer: mixer, context: context});
+      var second = new BufferedNode({location: '2.mp3', mixer: mixer, context: context});
+      var third = new BufferedNode({location: '3.mp3', mixer: mixer, context: context});
+      var fourth = new BufferedNode({location: '4.mp3', mixer: mixer, context: context});
+
+      var lastRed = 0;
+      var lastYellow = 0;
+      var lastBlue = 0;
+      var lastOrange = 0;
+
+      var startOrStop = function(buffer, pressed, lastState){
+        if(lastState == pressed) return;
+        if(!pressed && buffer.isPlaying())
+          buffer.stop()
+        else if(pressed && !buffer.isPlaying()){
+          buffer.play()
+        }
+      };
+
+      $.when(first.fetch(), second.fetch(), third.fetch(), fourth.fetch()).done(function(){
+        XBOXControllers.getControllers();
+        XBOXControllers.startStatusPolling();
+
+        XBOXControllers.onUpdate = function(){
+          var controller = XBOXControllers.controllers[0];
+          var buttons = controller.buttons;
+          var red = buttons.b;
+          var yellow = buttons.y;
+          var blue = buttons.x;
+          var orange = buttons.left_bumper;
+
+
+          startOrStop(first, red, lastRed);
+
+          startOrStop(second, yellow, lastYellow);
+
+          startOrStop(third, blue, lastBlue);
+          
+          startOrStop(fourth, orange, lastOrange);
+
+          lastRed = red;
+          lastYellow = yellow;
+          lastBlue = blue;
+          lastOrange = orange;
+        };        
+      });
+
+
+    })
+  </script>
+
+</body>
+</html>

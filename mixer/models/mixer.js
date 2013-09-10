@@ -35,6 +35,15 @@ this.Mixer = Backbone.Model.extend({
     this.play();
   },
 
+  adjustSpeed: function(byValue){
+    var cue = this.get('cue');
+    var track = this.get('track');
+    if(cue)
+      cue.adjustSpeed(byValue);
+    else
+      track.adjustSpeed(byValue);
+  },
+
   cuePlaybackStartedAt: 0,
   cuePlaybackStoppedAt: 0,
   cueTimeSum: 0,

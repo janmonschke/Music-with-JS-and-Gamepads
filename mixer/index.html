@@ -1,9 +1,9 @@
 <html>
 <head>
-  <title>Beatinator</title>
-  <script type="text/javascript" src="libs/jquery.js"></script>
-  <script type="text/javascript" src="libs/underscore.js"></script>
-  <script type="text/javascript" src="libs/backbone.js"></script>
+  <title>dj.js</title>
+  <script type="text/javascript" src="../demolibs/jquery.js"></script>
+  <script type="text/javascript" src="../demolibs/underscore.js"></script>
+  <script type="text/javascript" src="../demolibs/backbone.js"></script>
   <script type="text/javascript" src="libs/xboxcontrollers.js"></script>
   <script type="text/javascript" src="models/buffered_node.js"></script>
   <script type="text/javascript" src="models/cue_node.js"></script>
@@ -37,7 +37,7 @@
     $(function(){
       var mixer = new Mixer({ context: new webkitAudioContext()});
       var node1 = new BufferedNode({
-        location: 'songs/daftperiment2.mp3',
+        location: 'songs/daftperiment3.mp3',
         mixer: mixer
       });    
       mixer.setTrack(node1);
