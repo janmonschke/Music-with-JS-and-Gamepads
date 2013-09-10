@@ -88,7 +88,7 @@
 						<li>Timing is key!</li>
 						<li class="fragment">before: setTimeout / requestAnimationFrame</li>
 						<li class="fragment">lots of offset-calculations</li>
-						<li class="fragment">inacurate</li>
+						<li class="fragment">inaccurate</li>
 					</ul>
 
 					<aside class="notes">
@@ -138,6 +138,7 @@
 					<aside class="notes">
 						<p>when: start at that time on the time bar, if < currentTime then starts immediately;; offset: offset in the current buffer</p>
 						<p>same goes for the stop method</p>
+						<p>imagein how hard it would be to code that with settimeout, setinterval</p>
 						<p>NO MORE SETTIMEOUT!!!!</p>
 					</aside>
 				</section>	
@@ -164,6 +165,24 @@
 					<aside class="notes">
 						<p>gain = volume</p>
 						<p>linear, exponential, event own curves, but too complex to show now</p>
+					</aside>
+
+				</section>
+
+				<section>
+					<h2>Demos</h2>
+
+					<p><a href="/beatinator" class="fragment">The hello world of Web Audio API - a drum machine</a></p>
+
+					<p><a href="http://labs.dinahmoe.com/plink/" class="fragment">Plink!</a></p>
+
+					<p><a href="http://www.jamwithchrome.com/" class="fragment">Jam with chrome</a></p>
+
+					<aside class="notes">
+						<p>if you want to get started with the web audio API, I suggest you start by implementing a drum machine, it's not too hard and you'll get familiar with the timing system, nodes and buffers very easily</p>
+						<p>the current implementation uses buffers, but synthetic sounds are possible, too</p>
+
+
 					</aside>
 
 				</section>

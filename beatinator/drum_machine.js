@@ -26,7 +26,7 @@ this.DrumMachine = Backbone.Model.extend({
       bpm: 80
     });
     this.set('base', new Array(32));
-    this.set('kick',     [1,1,1,1,0,1,0,0,0,0,1,0,0,0,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0]);
+    this.set('kick',     [1,1,1,1,0,1,0,0,0,0,0,1,0,0,0,0,1,0,1,0,0,0,1,0,0,1,0,0,0,0,0,0]);
     this.set('snare',    [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1,1,1,1]);
     this.set('hatClosed',[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]);
     this.set('hatOpen',  [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0]);
@@ -43,6 +43,19 @@ this.DrumMachine = Backbone.Model.extend({
     this.set('snare',    [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0]);
     this.set('hatClosed',[1,0,1,0,0,1,0,0,1,0,0,1,0,0,1,0]);
     this.set('hatOpen', new Array(16));
+  },
+
+  simple: function(){
+    this.get('looper').set({
+      beats: 16,
+      bpm: 104
+    });
+
+    this.set('base',     [1,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0]);
+    this.set('kick',     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]);
+    this.set('snare',    [0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0]);
+    this.set('hatClosed',[1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0]);
+    this.set('hatOpen', new Array(16));    
   },
 
   scheduleBeats: function(){

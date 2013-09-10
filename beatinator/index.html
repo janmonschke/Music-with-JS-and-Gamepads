@@ -43,11 +43,14 @@
         var key = event.keyCode;
         if(key == 68){
           drumMachine.deftones();
-        }else if(key == 82){
-          drumMachine.reset();
+        }else if(key == 83){
+          drumMachine.simple();
         }else if(key == 72){
           drumMachine.hiphop();
+        }else if(key == 82){
+          drumMachine.reset();
         }
+
         console.log(event.keyCode)
       })
     });
