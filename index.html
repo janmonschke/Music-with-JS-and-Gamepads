@@ -250,7 +250,7 @@
 						
 						<div class="playContainer fragment">
 							<button id="playFileFromUrl1">Play File from URL</button>
-							<button id="playFileFromUrl2" class="fragment">Play a-GEMA free song</button>
+							<button id="playFileFromUrl2" class="fragment">Play a GEMA-free song</button>
 							<input type="text" value="Status..." id="playFileFromUrlStatus" />
 						</div>
 						
@@ -271,6 +271,7 @@
 								    source.buffer = buffer;
 								    source.connect(plffuContext.destination);
 								    source.start(0, 0, 8.3);
+								    source.onended = function(){ playFileFromUrlStatus.value = "Song reached end...";}
 						      	playFileFromUrlStatus.value = "Playing!";
 							    }, function(e) {
 							      playFileFromUrlStatus.value = "Error!";
@@ -293,6 +294,7 @@
 								    source.buffer = buffer;
 								    source.connect(plffuContext.destination);
 								    source.start(0, 0, 18.3);
+								    source.onended = function(){ playFileFromUrlStatus.value = "Song reached end...";}
 						      	playFileFromUrlStatus.value = "Playing!";
 							    }, function(e) {
 							      playFileFromUrlStatus.value = "Error!";
