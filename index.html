@@ -84,7 +84,7 @@
 						<li class="fragment">low-level access to all things audio</li>
 						<li class="fragment">create sounds</li>
 						<li class="fragment">manipulate sounds (filters)</li>
-						<li class="fragment">time sounds precisely</li>
+						<li class="fragment">timing sounds precisely</li>
 					</ul>
 
 					<aside class="notes">
@@ -204,7 +204,7 @@
 					<section>
 						<h2>Let's play sounds from files</h2>
 						<p>1. Load the file</p>
-						<pre><code>  var xhr = new XMLHttpRequest();
+						<pre class="fragment"><code>  var xhr = new XMLHttpRequest();
 
   xhr.open('GET', FILE_URL, true);
 
@@ -223,7 +223,7 @@
 					<section>
 						<h2>Let's play sounds from files</h2>
 						<p>2. Process the response</p>
-						<pre><code>  context.decodeAudioData(xhr.response, function(buffer) {
+						<pre class="fragment"><code>  context.decodeAudioData(xhr.response, function(buffer) {
 
     songBuffer = buffer;
 
@@ -239,7 +239,7 @@
 						<h2>Let's play sounds from files</h2>
 						<p>3. Play it</p>
 
-						<pre><code>  context.createBufferSource();
+						<pre class="fragment"><code>  context.createBufferSource();
 
   source.buffer = songBuffer;
 
@@ -283,7 +283,98 @@
 
 				</section>
 
+				<section>
 
+					<section>
+						<h2>Filters</h2>
+
+						<ul class="spaced">
+							<li class="fragment">change the output by manipulating the frequency spectrum</li>
+							<li class="fragment">most basic filters are already implemented</li>
+							<li class="fragment">custom filters can be created easily</li>
+						</ul>
+					</section>
+
+					<section>
+
+						<h2>Basic filters</h2>
+
+						<pre><code>
+  var filter = context.createBiquadFilter();
+
+  filter.type = filter.LOWPASS;
+
+  filter.frequency.value = 100;
+
+  // put the filter in betwwen song and speakers
+  song.connect(filter);
+  filter.connect(context.destination);
+
+</code></pre>
+
+					</section>
+
+					<section>
+						<h2>Filters in action</h2>
+
+					<button id="playEffected">Play / Pause</button>
+					<select id="effectSelect">
+						<option value="0">Low Pass</option>
+						<option value="1">High Pass</option>
+					</select>
+
+					<input type="range" id="effectFrequency" value="200" max="10000" min="1" />
+
+					</section>
+
+				</section>
+
+				<script type="text/javascript">
+					var effectContext = new webkitAudioContext();
+					var effectSelect = document.getElementById('effectSelect');
+					var playingEffect = false;
+
+					var stopEffect = function(){
+						if(sourceEffect){
+							sourceEffect.stop(0);
+							sourceEffect.disconnect();
+						}
+					};
+
+					var sourceEffect = null;
+					var filter = null;
+					var playEffect = function(){
+						stopEffect();
+						sourceEffect = effectContext.createBufferSource();
+				    sourceEffect.buffer = buffers['rejects'];
+				    sourceEffect.loop = true;
+
+				    filter = effectContext.createBiquadFilter();
+				    filter.type = parseInt(effectSelect.value);
+
+				    sourceEffect.connect(filter);
+				    filter.connect(effectContext.destination);
+
+				    sourceEffect.start(0);
+					}
+
+					effectSelect.addEventListener('change', function(){
+						filter.type = parseInt(effectSelect.value);						
+					});
+
+					document.getElementById('effectFrequency').addEventListener('change', function(){
+						filter.frequency.value = this.value;
+					});
+
+					document.getElementById('playEffected').addEventListener('click', function(){
+						if(playingEffect){
+							stopEffect();
+						}else{
+							playEffect();
+						}
+						playingEffect = !playingEffect;
+					})
+				</script>
 
 				<section>
 					<h2>Timing</h2>
@@ -353,13 +444,13 @@
 					<p>The API even allows to set values in the future:</p>
 
 					<pre class="fragment"><code>
-	// set the gain to .2 in 5 seconds
-	sourceNode.gain.setValueAtTime(.2, context.currentTime + 5);
+  // set the gain to .2 in 5 seconds
+  sourceNode.gain.setValueAtTime(.2, context.currentTime + 5);
 					</code></pre>
 
 					<pre class="fragment"><code>
-	// fade out
-	sourceNode.linearRampToValueAtTime(0, context.currentTime + 5);
+  // fade out
+  sourceNode.linearRampToValueAtTime(0, context.currentTime + 5);
 					</code></pre>
 
 					<p class="fragment">
@@ -496,6 +587,11 @@
 	firstPad.buttons; // -> Array[17]
 
 	firstPad.buttons[0]; // -> 0
+
+						<aside class="notes">
+							Look at how we read out the button state
+						</aside>
+
 						</code></pre>
 					</section>
 
@@ -552,7 +648,26 @@
 				</section>
 
 				<section>
-					<h2>Introducing: DJ Hero turntable</h2>
+					<h2>Guitar Hero guitar</h2>
+
+					<h1>todo</h1>
+
+					<aside class="notes">
+					</aside>
+				</section>
+
+				<section>
+					<h2>guitar.js</h2>
+
+					<p>add the guitar hero clone</p>
+
+					<aside class="notes">
+						<p>For some reason the Rockband drumkit didn't work, would've loved to have a band perform on stage ;)</p>
+					</aside>
+				</section>
+
+				<section>
+					<h2>DJ Hero turntable</h2>
 
 					<img src="images/djherogamepad.jpg" data-source="http://www.wiids.co.uk/wp-content/uploads/2009/06/dj-hero-controller-010.jpg">
 
@@ -583,26 +698,6 @@
 				<section>
 					<h2>API problems (Gamepad API)</h2>
 
-				</section>
-
-				<section>
-					<h2>One more thing!</h2>
-
-					<aside class="notes">
-						<p>Unwrap the guitar!</p>
-						<p>Ask who has played guitar hero before</p>
-						<p>Ask for volunteer ;)</p>
-					</aside>
-				</section>
-
-				<section>
-					<h2>guitarhero.js</h2>
-
-					<p>add the guitar hero clone</p>
-
-					<aside class="notes">
-						<p>For some reason the Rockband drumkit didn't work, would've loved to have a band perform on stage ;)</p>
-					</aside>
 				</section>
 
 				<section>
@@ -656,7 +751,7 @@
 			var context = new webkitAudioContext();
 			var source = null;
 
-			var buffers = {};
+			window.buffers = {};
 
 			var loadBuffer = function(location, bufferName){
 				var xhr = new XMLHttpRequest();
@@ -671,7 +766,7 @@
 			};
 
 			loadBuffer('mixer/songs/rick.mp3', 'rick');
-			loadBuffer('mixer/songs/wearetherejects.mp3', 'rejects');
+			loadBuffer('mixer/songs/wearetherejects-2.mp3', 'rejects');
 
 			var playBuffer = function(bufferName, when, offset, duration){
 				if(source) source.stop(0);
