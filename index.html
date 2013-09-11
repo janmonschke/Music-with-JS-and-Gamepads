@@ -248,8 +248,11 @@
   source.start(0);
 </code></pre>
 						
-						<button id="playFileFromUrl">Play File from URL</button>
+						<div class="playContainer fragment">
+							<button id="playFileFromUrl">Play File from URL</button>
 						<input type="text" value="Status..." id="playFileFromUrlStatus" />
+						</div>
+						
 
 						<script type="text/javascript">
 							var playFileFromUrlStatus = document.getElementById('playFileFromUrlStatus');
@@ -265,7 +268,7 @@
 							      var source = plffuContext.createBufferSource();
 								    source.buffer = buffer;
 								    source.connect(plffuContext.destination);
-								    source.start(0, 0, 18);
+								    source.start(0, 0, 8.3);
 						      	playFileFromUrlStatus.value = "Playing!";
 							    }, function(e) {
 							      playFileFromUrlStatus.value = "Error!";
@@ -700,10 +703,45 @@
 
 				<section>
 					<h2>API problems (Web Audio API)</h2>
+
+					<ul class="spaced">
+						<li class="fragment">Still unstable: browser may crash when doing fancy stuff</li>
+						<li class="fragment">No negative playbackRate, yet</li>
+						<li class="fragment">currentTime of BufferNodes would be aweswome</li>
+						<li class="fragment">Only one destination for now</li>
+					</ul>
+
+					<aside class="notes">
+						<p>especially when it came to custom-filters it was very unstable</p>
+						<p>negative playback is needed for scratching :D</p>
+						<p>currently this needs to be calculated in relation to to context - even the audio element has it!</p>
+						<p>
+							DJs need to pre-listen to parts of the songs to mix properly, therefore two soundcards are used, currently there's only one speaker to connect the sounds to
+						</p>
+					</aside>
+
 				</section>
 
 				<section>
 					<h2>API problems (Gamepad API)</h2>
+
+					<ul class="spaced">
+						<li class="fragment">Events, please ;)</li>
+						<li class="fragment">Let me talk to the Gamepad: rumble, LEDs</li>
+					</ul>
+
+					<aside class="notes">
+						<p>events in addition to the polling mechanism so the api rocks for both (js-devs and game-devs)</p>
+					</aside>
+
+				</section>
+
+				<section>
+					<h1>THX so much for your attention!</h1>
+
+					<aside class="notes">
+						I hope that I will find another working drum kit so that we can have a nice rockband.js in the future, thx :)
+					</aside>
 
 				</section>
 
@@ -713,14 +751,6 @@
 					<ul>
 						<li></li>
 					</ul>
-				</section>
-
-				<section>
-					<h1>THX so much for your attention!</h1>
-				</section>
-
-				<section>
-					<h1>You were a great audience!</h1>
 				</section>
 
 			</div>
@@ -796,7 +826,7 @@
 			});
 
 			document.getElementById('setvalueattime').addEventListener('click', function(){
-				playBuffer('rejects', 0, 0, 10);
+				playBuffer('rejects', 0, 0, 8);
 				source.gain.value = 2;
 				source.gain.setValueAtTime(.5, context.currentTime + 5);
 			});
