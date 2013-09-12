@@ -873,7 +873,7 @@
 						nextCoolDown = Date.now() + coolDownTime;
 					}
 
-					if(pad.buttons[4] && previousCoolDown <= Date.now()){
+					if((pad.buttons[4] || (guitar && guitar.buttons[3])) && previousCoolDown <= Date.now()){
 						Reveal.prev();
 						previousCoolDown = Date.now() + coolDownTime;
 					}
