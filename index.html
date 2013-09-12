@@ -866,8 +866,9 @@
 				if(!navigator.webkitGetGamepads) return;
 				var gamepads = navigator.webkitGetGamepads();
 				var pad = gamepads[0];
+				var guitar = gamepads[1];
 				if(pad){
-					if(pad.buttons[5] && nextCoolDown <= Date.now()){
+					if((pad.buttons[5] || (guitar && guitar.buttons[1])) && nextCoolDown <= Date.now()){
 						Reveal.next();
 						nextCoolDown = Date.now() + coolDownTime;
 					}
