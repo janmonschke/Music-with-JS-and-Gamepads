@@ -847,6 +847,10 @@
 
 			loadBuffer('mixer/songs/rick.mp3', 'rick');
 			loadBuffer('mixer/songs/wearetherejects-2.mp3', 'rejects');
+			loadBuffer('slash.mp3', 'slash');
+			loadBuffer('dot.mp3', 'dot');
+			loadBuffer('dash.mp3', 'dash');
+			loadBuffer('dotcom.mp3', 'dotcom');
 
 			var playBuffer = function(bufferName, when, offset, duration){
 				if(source) source.stop(0);
@@ -874,9 +878,18 @@
 				source.gain.setValueAtTime(.5, context.currentTime + 5);
 			});
 
-			var nextCoolDown = Date.now();
-			var previousCoolDown = Date.now();
+			var now = Date.now();
+			var nextCoolDown = now;
+			var previousCoolDown = now;
 			var coolDownTime = 300;
+
+			var slashDotCooldown = {
+				slash: now,
+				dot: now,
+				dash: now,
+				dotcom: now
+			}
+
 			var checkControllerState = function(){
 				if(!navigator.webkitGetGamepads) return;
 				var gamepads = navigator.webkitGetGamepads();
@@ -892,6 +905,28 @@
 						Reveal.prev();
 						previousCoolDown = Date.now() + coolDownTime;
 					}
+
+					var currentC = Date.now();
+					if(pad.buttons[0] && slashDotCooldown.slash <= currentC){
+						playBuffer('slash', 0, 0, 1);
+						slashDotCooldown.slash = currentC + coolDownTime;
+					}
+
+					if(pad.buttons[1] && slashDotCooldown.dot <= currentC){
+						playBuffer('dot', 0, 0, 1);
+						slashDotCooldown.dot = currentC + coolDownTime;
+					}
+
+					if(pad.buttons[2] && slashDotCooldown.dash <= currentC){
+						playBuffer('dash', 0, 0, 1);
+						slashDotCooldown.dash = currentC + coolDownTime;
+					}
+
+					if(pad.buttons[3] && slashDotCooldown.dotcom <= currentC){
+						playBuffer('dotcom', 0, 0, 1);
+						slashDotCooldown.dotcom = currentC + coolDownTime;
+					}
+
 				}
 
 				requestAnimationFrame(checkControllerState);
