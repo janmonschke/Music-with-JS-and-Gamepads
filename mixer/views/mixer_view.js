@@ -66,6 +66,8 @@ this.MixerView = BaseView.extend({
       red: Date.now()
     }
 
+    var playing = false;
+
     var controllerIndex = parseInt(prompt('Which gamepad do you want to use?')) || 0
     console.log('using controller index:', controllerIndex);
 
@@ -102,8 +104,9 @@ this.MixerView = BaseView.extend({
 
       // TURNTABLE
       var turntable = controller.axes.turntable
-      if(allowTurntable && turntable != previousTurntableValue)
+      if(allowTurntable && turntable != previousTurntableValue){
         this.model.adjustSpeed(-turntable * 88)
+      }
 
       previousTurntableValue = turntable;
 
@@ -114,6 +117,15 @@ this.MixerView = BaseView.extend({
           coolDowns.red = now + 200;
         }
       }
+
+      // START/STOP
+      if(controller.buttons.y)
+        if(playing)
+          view.stop();
+        else{
+          playing = true;
+          view.play();
+        }
     }.bind(this);
   }
 
