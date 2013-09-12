@@ -134,13 +134,11 @@
 					<pre class="fragment"><code>oscillator.noteOn(0);</code></pre>
 					<div class="fragment">
 						<button id="play22khz">Play 22kHz</button>
-						<button id="play61hz">Play 61Hz</button>
 						<button id="playFromRange">Play from range</button>
 						<input type="range" id="oscRange" value="200" min="0" max="2000" />
 						<select id="oscSelect">
 							<option value="0">Sine</option>
 							<option value="1">Square</option>
-							<option value="2">Sawtooth</option>
 							<option value="3">Triangle</option>
 						</select>
 						<button id="oscStop">Stop</button>
@@ -178,10 +176,6 @@
 						playOsc(22000, 0);
 					});
 
-					document.getElementById('play61hz').addEventListener('click', function(){
-						playOsc(61, 0);
-					});
-
 					document.getElementById('playFromRange').addEventListener('click', function(){
 						playOsc(200, oscRange.value);
 					});
@@ -206,7 +200,7 @@
 						<p>1. Load the file</p>
 						<pre class="fragment"><code>  var xhr = new XMLHttpRequest();
 
-  xhr.open('GET', FILE_URL, true);
+  xhr.open('GET', '/get_lucky.mp3', true);
 
   xhr.responseType = 'arraybuffer';
 
@@ -223,15 +217,15 @@
 					<section>
 						<h2>Let's play sounds from files</h2>
 						<p>2. Process the response</p>
-						<pre class="fragment"><code>  context.decodeAudioData(xhr.response, function(buffer) {
+						<pre class="fragment"><code>context.decodeAudioData(xhr.response, function(buffer) {
 
-    songBuffer = buffer;
+  songBuffer = buffer;
 
-  }, function(e) {
+}, function(e) {
 
-    console.log('Whoops, sth. went wront');
+  console.log('Whoops, sth. went wront');
 
-  });
+});
 </code></pre>
 					</section>
 
@@ -239,7 +233,7 @@
 						<h2>Let's play sounds from files</h2>
 						<p>3. Play it</p>
 
-						<pre class="fragment"><code>  context.createBufferSource();
+						<pre class="fragment"><code>  var source = context.createBufferSource();
 
   source.buffer = songBuffer;
 
@@ -293,7 +287,7 @@
 							      var source = plffuContext.createBufferSource();
 								    source.buffer = buffer;
 								    source.connect(plffuContext.destination);
-								    source.start(0, 0, 18.3);
+								    source.start(0, 0, 8.3);
 								    source.onended = function(){ playFileFromUrlStatus.value = "Song reached end...";}
 						      	playFileFromUrlStatus.value = "Playing!";
 							    }, function(e) {
@@ -342,11 +336,18 @@
 
   filter.frequency.value = 100;
 
-  // put the filter in betwwen song and speakers
+  // put the filter in between song and speakers
   song.connect(filter);
   filter.connect(context.destination);
 
 </code></pre>
+
+					</section>
+
+					<section>
+						<h2>Basic filters</h2>
+
+						<img src="images/filters.png" />
 
 					</section>
 
@@ -436,10 +437,9 @@
 
 					<ul class="spaced">
 						<li>Timing is relative to the current context!</li>
-						<li class="fragment"><pre><code>context.currentTime // -> time bar in seconds</code></pre></li>
 					</ul>
 
-					<img src="images/nyancat.gif" class="fragment">
+					<pre class="fragment"><code>context.currentTime // -> time bar in seconds</code></pre>
 
 					<aside class="notes">
 						<p>context.currentTime is like a time bar, it starts once you play the first tune and will then go on forever...</p>
@@ -457,7 +457,7 @@
 
 
 					<pre class="fragment"><code>
-	sourceNode.start(when, offset, duration); // ouh yeah
+	sourceNode.start(when, offset, duration);
 					</code></pre>
 
 					<p class="fragment">
@@ -480,13 +480,11 @@
 					<p>The API even allows to set values in the future:</p>
 
 					<pre class="fragment"><code>
-  // set the gain to .2 in 5 seconds
-  sourceNode.gain.setValueAtTime(.2, context.currentTime + 5);
+  node.gain.setValueAtTime(.2, currentTime + 5);
 					</code></pre>
 
 					<pre class="fragment"><code>
-  // fade out
-  sourceNode.linearRampToValueAtTime(0, context.currentTime + 5);
+  node.linearRampToValueAtTime(0, currentTime + 5);
 					</code></pre>
 
 					<p class="fragment">
@@ -525,8 +523,10 @@
 					<ul class="spaced">
 						<li class="fragment">More complex games are written in JS (Canvas, WebGL)</li>
 						<li class="fragment">Controlling games: W, A, S, D or arrows + mouse + keys</li>
-						<li class="fragment">Problem: digital vs. analogue</li>
+						<li class="fragment">Problem: digital vs. analogue values</li>
 					</ul>
+
+					<p class="fragment">Wouldn't it be nice to use gamepads in your browser?</p>
 
 					<aside class="notes">
 						<ul>
@@ -540,11 +540,10 @@
 				</section>
 
 				<section>
-					<h2>Gamepad API</h2>
+					<h2>Introducing: Gamepad API</h2>
 
-					<p class="big">Use all your favorite Gamepads with a standardized API!</p>
+					<p class="big">Use all your favorite Gamepads in your browser!</p>
 
-					<p class="big">Yey! :)</p>
 
 				</section>
 
@@ -598,8 +597,7 @@
 				<section>
 					<h2>But how am I supposed to know which button has which index?</h2>
 
-					<p class="fragment">It's standardized, look:</p>
-					<img class="fragment" src="images/gamepad_diagram.png" data-source="http://www.html5rocks.com/en/tutorials/doodles/gamepad/">
+					<a class="fragment" target="_blank" href="http://www.html5rocks.com/en/tutorials/doodles/gamepad/gamepad-tester/tester.html"><img  src="images/gamepad_diagram.png" data-source="http://www.html5rocks.com/en/tutorials/doodles/gamepad/"></a>
 
 					<aside class="notes">
 						<p>Zoom the image when presenting!!</p>
@@ -617,17 +615,13 @@
 					<section>
 
 						<pre><code>
-	var gamepads = navigator.webkitGetGamepads()
+  var gamepads = navigator.webkitGetGamepads()
 
-	var firstPad = gamepads[0];
+  var firstPad = gamepads[0];
 
-	firstPad.buttons; // -> Array[17]
+  firstPad.buttons; // -> Array[17]
 
-	firstPad.buttons[0]; // -> 0
-
-						<aside class="notes">
-							Look at how we read out the button state
-						</aside>
+  firstPad.buttons[0]; // -> 0
 
 						</code></pre>
 					</section>
@@ -655,19 +649,22 @@
 				<section>
 					<h2>Let's play</h2>
 
-					<p><a href="gamepad-demo.html">Gamepad demo</a></p>
+					<!--p><a href="gamepad-demo.html">Gamepad demo</a></p-->
 										
-					<p class="fragment"><a href="http://www.google.com/doodles/hurdles-2012">An actual game ;)</a></p>
+					<p class=""><a href="http://www.google.com/doodles/hurdles-2012" target="_blank">A Google doodle that uses the Gamepad API</a></p>
+
 				</section>
 
 				<section>
-					<h2>Let's play some music</h2>
+					<h2>How do we combine the APIs?</h2>
 
-					<p>show a demo that plays a sound and the gamepad can manipulate it (use demo from HTW hackaday) and add sounds on button press, change playbackrate with one of the triggers</p>
+							<pre><code>if(gamepad.buttons[0] == 1)
+  song.start(0);</code></pre>
 
-					<aside>
-						Let's combine the two APIs for a first time :)
-					</aside>
+							<pre><code>filter.frequency.value += gamepad.axes[0];</code></pre>
+
+							<p class="fragment">But...</p>
+
 				</section>
 
 				<section>
@@ -756,6 +753,8 @@
 					<ul class="spaced">
 						<li class="fragment">Events, please ;)</li>
 						<li class="fragment">Let me talk to the Gamepad: rumble, LEDs</li>
+						<li class="fragment">Sometimes unstable and doesn't connect the Gamepads</li>
+						<li class="fragment">Please add the Guitar Hero drum kit, so we can have a rockband.js</li>
 					</ul>
 
 					<aside class="notes">
@@ -858,6 +857,29 @@
 				source.gain.value = 2;
 				source.gain.setValueAtTime(.5, context.currentTime + 5);
 			});
+
+			var nextCoolDown = Date.now();
+			var previousCoolDown = Date.now();
+			var coolDownTime = 300;
+			var checkControllerState = function(){
+				var gamepads = navigator.webkitGetGamepads();
+				var pad = gamepads[0];
+				if(pad){
+					if(pad.buttons[5] && nextCoolDown <= Date.now()){
+						Reveal.next();
+						nextCoolDown = Date.now() + coolDownTime;
+					}
+
+					if(pad.buttons[4] && previousCoolDown <= Date.now()){
+						Reveal.prev();
+						previousCoolDown = Date.now() + coolDownTime;
+					}
+				}
+
+				requestAnimationFrame(checkControllerState);
+			};
+
+			checkControllerState();
 
 		</script>
 

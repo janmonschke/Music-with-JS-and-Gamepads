@@ -65,7 +65,7 @@ this.MixerView = BaseView.extend({
     }
 
     XBOXControllers.onUpdate = function(){
-      var controller = XBOXControllers.controllers[this.controllerIndex];
+      var controller = XBOXControllers.controllers[2];
 
       var now = Date.now();
 

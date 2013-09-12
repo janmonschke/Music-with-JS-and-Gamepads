@@ -18,7 +18,7 @@
     var snare = new BufferedNode({context: context, location: 'snare.wav', mixer: mixer});
     var kick = new BufferedNode({context: context, location: 'kick.wav', mixer: mixer});
     var hatClosed = new BufferedNode({context: context, location: 'hat-closed.wav', mixer: mixer});
-    var hatOpen = new BufferedNode({context: context, location: 'highhat-open.mp3', mixer: mixer});
+    var hatOpen = new BufferedNode({context: context, location: 'highhat-open-2.wav', mixer: mixer});
 
     $.when(base.fetch(), snare.fetch(), kick.fetch(), hatClosed.fetch(), hatOpen.fetch()).done(function(){
       var drumMachine = new DrumMachine({
