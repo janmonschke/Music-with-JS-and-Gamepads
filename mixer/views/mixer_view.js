@@ -66,8 +66,11 @@ this.MixerView = BaseView.extend({
       red: Date.now()
     }
 
+    var controllerIndex = parseInt(prompt('Which gamepad do you want to use?')) || 0
+    console.log('using controller index:', controllerIndex);
+
     XBOXControllers.onUpdate = function(){
-      var controller = XBOXControllers.controllers[2];
+      var controller = XBOXControllers.controllers[controllerIndex];
 
       var now = Date.now();
 

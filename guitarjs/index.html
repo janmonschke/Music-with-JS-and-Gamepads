@@ -106,8 +106,11 @@
         XBOXControllers.getControllers();
         XBOXControllers.startStatusPolling();
 
+        var controllerIndex = parseInt(prompt('Which gamepad do you want to use?')) || 0
+        console.log('using controller index:', controllerIndex);
+
         XBOXControllers.onUpdate = function(){
-          var controller = XBOXControllers.controllers[1];
+          var controller = XBOXControllers.controllers[controllerIndex];
           var buttons = controller.buttons;
           var red = buttons.b;
           var yellow = buttons.y;
