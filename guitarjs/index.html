@@ -10,10 +10,67 @@
   <script type="text/javascript" src="../mixer/models/mixer.js"></script>
   <script type="text/javascript" src="../beatinator/looper.js"></script>
 
+  <style type="text/css">
+    body {
+      background: #ededed;
+      color: #444;
+    }
+
+    .guitar {
+      width: 500px;
+      margin: 20px auto;
+    }
+
+    .note {
+      width: 250px;
+      height: 80px;
+      opacity: .3;
+      margin: 0 auto;
+      border-radius: 10px;
+      margin-bottom: 10px;
+      border: 5px solid transparent;
+    }
+
+    .first{
+      background-color: red;
+    }
+
+    .second{
+      background-color: yellow;
+    }
+
+    .third{
+      background-color: blue;
+    }
+
+    .fourth{
+      background-color: orange;
+    }
+
+    .pressed{
+      opacity: .7;
+    }
+
+    .drums{
+      display: none;
+      text-align: center;
+    }
+  </style>
+
 </head>
 <body>
 
-  <button id="letsrock">Let's rock</button>
+  <div class="guitar">
+
+    <div class="first note"></div>
+    <div class="second note"></div>
+    <div class="third note"></div>
+    <div class="fourth note"></div>
+
+    <h1 class="drums">Drums activated</h1>
+
+  </div>
+
 
   <script type="text/javascript">
     $(function(){
@@ -32,13 +89,16 @@
       var lastOrange = 0;
       var lastSelect = 0;
 
-      var startOrStop = function(buffer, pressed, lastState){
+      var startOrStop = function(buffer, pressed, lastState, index){
         if(lastState == pressed) return;
         if(!pressed && buffer.isPlaying())
           buffer.stop()
         else if(pressed && !buffer.isPlaying()){
           buffer.play()
         }
+
+        $('.note.' + index).toggleClass(pressed);
+
       };
 
       $.when(first.fetch(), second.fetch(), third.fetch(), fourth.fetch(), drums.fetch()).done(function(){
@@ -46,7 +106,7 @@
         XBOXControllers.startStatusPolling();
 
         XBOXControllers.onUpdate = function(){
-          var controller = XBOXControllers.controllers[0];
+          var controller = XBOXControllers.controllers[1];
           var buttons = controller.buttons;
           var red = buttons.b;
           var yellow = buttons.y;
@@ -54,14 +114,15 @@
           var orange = buttons.left_bumper;
           var select = buttons.select;
 
-          startOrStop(first, red, lastRed);
-          startOrStop(second, yellow, lastYellow);
-          startOrStop(third, blue, lastBlue);
-          startOrStop(fourth, orange, lastOrange);
+          startOrStop(first, red, lastRed, 'first');
+          startOrStop(second, yellow, lastYellow, 'second');
+          startOrStop(third, blue, lastBlue, 'third');
+          startOrStop(fourth, orange, lastOrange, 'fourth');
 
           if(select && !drums.isPlaying()){
             drums.play()
-            drums.get('source').loop = true
+            drums.get('source').loop = true;
+            $('.drums').show();
           }
 
           lastRed = red;
