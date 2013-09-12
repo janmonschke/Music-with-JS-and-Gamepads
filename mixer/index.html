@@ -20,7 +20,7 @@
     }
 
     #mixer {
-      width: 500px;
+      width: 700px;
       margin: 50px auto;
     }
 
@@ -31,9 +31,40 @@
       background-color: #dcdcdc;
       border: 2px solid #aaa; 
     }
+    .right-side{
+      float: right;
+    }
+
+    .left-side{
+      float: left;
+      padding-left: 20px;
+    }
+
+    .left-side p{
+      margin-bottom: 35px;
+    }
+
+    span{
+      padding-top: 20px;
+
+    }
+
+    button{
+      font-size: 20px;
+    }
 
     .cue-button.stop{
+      -webkit-animation: pulseRed 0.5s infinite;
+    }
+
+    .cue-button.abort{
       -webkit-animation: pulse 1.5s infinite;
+    }
+
+    @-webkit-keyframes pulseRed {
+      0% {background-color: #dcdcdc;}
+     50% {background-color: red;}
+     100% {background-color: #dcdcdc}
     }
 
     @-webkit-keyframes pulse {
@@ -41,6 +72,11 @@
      50% {background-color: lightsalmon;}
      100% {background-color: #dcdcdc}
     }
+
+    @-webkit-keyframes rotateLp {
+      0% {-webkit-transform: rotate(0deg);}
+     100% {-webkit-transform: rotate(360deg);}
+    }    
 
     input[type=range] {
       -webkit-appearance: none;
@@ -57,6 +93,41 @@
       height: 26px;
     }
 
+    #mixer-container{
+      padding: 10px;
+      border: 2px solid #666;
+      border-radius: 5px;
+      width: 700px;
+    }
+
+    #lp{
+    }
+
+    #lp.rotate{
+      -webkit-animation: rotateLp 1.5s linear infinite;
+    }
+
+    .clearfix:after {
+      content: ".";
+      display: block;
+      clear: both;
+      visibility: hidden;
+      line-height: 0;
+      height: 0;
+    }
+     
+    .clearfix {
+      display: inline-block;
+    }
+     
+    html[xmlns] .clearfix {
+      display: block;
+    }
+     
+    * html .clearfix {
+      height: 1%;
+    }
+
   </style>
 
 </head>
@@ -65,18 +136,29 @@
   <div id="mixer"></div>
 
   <script type="template/underscore" id="mixer-template">
-    <div id="mixer-container">
-    <button id="play">Play</button>
-    <button id="stop">Stop</button>
+    <div id="mixer-container" class="clearfix">
     <div class="left-side">
       <div class="effects"></div>
-      <div class="gain">
-        <input type="range" min="0" max="1" value="0.5" step="0.01" />
-      </div>
+
+      <p>
+        <button id="play">Play</button>
+        <button id="stop">Stop</button>
+      </p>
+
+      <p>
+        <div class="gain">
+          <input type="range" min="0" max="1" value="0.5" step="0.01" />
+        </div>
+        <span>Volume</span>
+      </p>
+
+      <p>
+        <div class="cue-button start"></div>
+        <span>CUE</span>
+      </p>
     </div>
     <div class="right-side">
-      <div class="cue-button start"></div>
-      <div>CUE</div>
+      <img id="lp" width="350" height="350" src="../images/lp.png" />
     </div>
   </div>
   </script>

@@ -24,10 +24,12 @@ this.MixerView = BaseView.extend({
   },
 
   play: function(){
+    $('#lp').addClass('rotate');
     this.model.play();
   },
 
   stop: function(){
+    $('#lp').removeClass('rotate')
     this.model.stop();
   },
 
