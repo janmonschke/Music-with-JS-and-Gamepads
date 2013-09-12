@@ -223,7 +223,7 @@
 
 }, function(e) {
 
-  console.log('Whoops, sth. went wront');
+  console.log('Whoops, sth. went wrong');
 
 });
 </code></pre>
@@ -484,7 +484,7 @@
 					</code></pre>
 
 					<pre class="fragment"><code>
-  node.linearRampToValueAtTime(0, currentTime + 5);
+  node.gain.linearRampToValueAtTime(0, currentTime + 5);
 					</code></pre>
 
 					<p class="fragment">
@@ -660,9 +660,7 @@
 					<h2>How do we combine the APIs?</h2>
 
 							<pre><code>if(gamepad.buttons[0] == 1)
-  song.start(0);</code></pre>
-
-							<pre><code>filter.frequency.value += gamepad.axes[0];</code></pre>
+  sound.start(0);</code></pre>
 
 							<p class="fragment">But...</p>
 
@@ -756,6 +754,7 @@
 					<h2>API problems (Gamepad API)</h2>
 
 					<ul class="spaced">
+						<li class="fragment">Unstable API (FF/Chrome incomptatible)</li>
 						<li class="fragment">Events, please ;)</li>
 						<li class="fragment">Let me talk to the Gamepad: rumble, LEDs</li>
 						<li class="fragment">Sometimes unstable and doesn't connect the Gamepads</li>
@@ -774,7 +773,7 @@
 					<ul class="spaced">
 						<li class="fragment">The Web Audio API is incredibly powerful</li>
 						<li class="fragment">The Gampad API is awesome and easy to use</li>
-						<li class="fragment">Combined they allow to play 'real' instruments in your browser</li>
+						<li class="fragment">When combined, they allow to play 'real' instruments in your browser</li>
 						<li class="fragment">I can see things like Garageband.js with DJ equipment in the future!</li>
 					</ul>
 				</section>
