@@ -10,10 +10,57 @@
   <script type="text/javascript" src="models/mixer.js"></script>
   <script type="text/javascript" src="views/base_view.js"></script>
   <script type="text/javascript" src="views/mixer_view.js"></script>
+
+  <style type="text/css">
+
+    body {
+      background: #ededed;
+      color: #444;
+      font-family: sans-serif;
+    }
+
+    #mixer {
+      width: 500px;
+      margin: 50px auto;
+    }
+
+    .cue-button{
+      width: 51px;
+      height: 51px;
+      border-radius: 26px;
+      background-color: #dcdcdc;
+      border: 2px solid #aaa; 
+    }
+
+    .cue-button.stop{
+      -webkit-animation: pulse 1.5s infinite;
+    }
+
+    @-webkit-keyframes pulse {
+      0% {background-color: #dcdcdc;}
+     50% {background-color: lightsalmon;}
+     100% {background-color: #dcdcdc}
+    }
+
+    input[type=range] {
+      -webkit-appearance: none;
+      background-color: silver;
+      width: 200px;
+      height:20px;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+       -webkit-appearance: none;
+      background-color: #666;
+      opacity: 0.5;
+      width: 10px;
+      height: 26px;
+    }
+
+  </style>
+
 </head>
 <body>
-
-  
 
   <div id="mixer"></div>
 
@@ -28,7 +75,8 @@
       </div>
     </div>
     <div class="right-side">
-      <button class="cue-button start">CUE</button>
+      <div class="cue-button start"></div>
+      <div>CUE</div>
     </div>
   </div>
   </script>
