@@ -862,6 +862,7 @@
 			var previousCoolDown = Date.now();
 			var coolDownTime = 300;
 			var checkControllerState = function(){
+				if(!navigator.webkitGetGamepads) return;
 				var gamepads = navigator.webkitGetGamepads();
 				var pad = gamepads[0];
 				if(pad){
