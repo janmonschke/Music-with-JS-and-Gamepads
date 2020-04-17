@@ -8,9 +8,11 @@ window.CueNode = BufferedNode.extend({
   setUpSourceNode: function(){
     var context = this.get('context');
     var source = context.createBufferSource();
+    var gainNode = context.createGain();
     source.buffer = this.get('buffer');
-    source.gain.value = this.get('mixer').get('gain');
-    source.connect(context.destination);
+    gainNode.gain.value = this.get('mixer').get('gain');
+    source.connect(gainNode);
+    gainNode.connect(context.destination);
     this.set('source', source);
   },
 

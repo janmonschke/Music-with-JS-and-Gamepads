@@ -119,18 +119,19 @@
 
 					<pre><code>var context = new AudioContext();</code></pre>
 					<pre class="fragment"><code>var oscillator = context.createOscillator();</code></pre>
-					<pre class="fragment"><code>oscillator.type = 0; // -> sine </code></pre>
+					<pre class="fragment"><code>oscillator.type = "sine"; // -> sine </code></pre>
 					<pre class="fragment"><code>oscillator.frequency.value = 22000;</code></pre>
 					<pre class="fragment"><code>oscillator.connect(context.destination);</code></pre>
-					<pre class="fragment"><code>oscillator.noteOn(0);</code></pre>
+					<pre class="fragment"><code>oscillator.start(0);</code></pre>
 					<div class="fragment">
 						<button id="play22khz">Play 22kHz</button>
 						<button id="playFromRange">Play from range</button>
 						<input type="range" id="oscRange" value="200" min="0" max="2000" />
 						<select id="oscSelect">
-							<option value="0">Sine</option>
-							<option value="1">Square</option>
-							<option value="3">Triangle</option>
+							<option value="sine">Sine</option>
+							<option value="square">Square</option>
+							<option value="triangle">Triangle</option>
+							<option value="sawtooth">Sawtooth</option>
 						</select>
 						<button id="oscStop">Stop</button>
 					</div>
@@ -155,11 +156,11 @@
 						oscOscillator.type = parseInt(oscSelect.value);
 						oscOscillator.frequency.value = frequency;
 						oscOscillator.connect(oscContext.destination);
-						oscOscillator.noteOn(0);
+						oscOscillator.start(0);
 					};
 
 					var stopOsc = function(){
-						if(oscOscillator) oscOscillator.noteOff(0);
+						if(oscOscillator) oscOscillator.stop(0);
 						oscOscillator = null;
 					};
 
@@ -176,11 +177,11 @@
 					});
 
 					oscSelect.addEventListener('change', function(){
-						if(oscOscillator) oscOscillator.type = parseInt(this.value);
+						if(oscOscillator) oscOscillator.type = this.value;
 					});
 
 					oscRange.addEventListener('change', function(){
-						if(oscOscillator) oscOscillator.frequency.value = this.value;
+						if(oscOscillator) oscOscillator.frequency.value = parseInt(this.value);
 					});
 
 				</script>
@@ -833,6 +834,7 @@
 
 			var context = new AudioContext();
 			var source = null;
+			var gainNode = null;
 
 			window.buffers = {};
 
@@ -858,8 +860,10 @@
 			var playBuffer = function(bufferName, when, offset, duration){
 				if(source) source.stop(0);
 				source = context.createBufferSource();
-		    source.buffer = buffers[bufferName];
-		    source.connect(context.destination);
+				source.buffer = buffers[bufferName];
+				gainNode = context.createGain();
+				source.connect(gainNode);
+				gainNode.connect(context.destination);
 		    source.start(when + context.currentTime, offset, duration);
 			};
 
@@ -877,8 +881,8 @@
 
 			document.getElementById('setvalueattime').addEventListener('click', function(){
 				playBuffer('rejects', 0, 0, 8);
-				source.gain.value = 2;
-				source.gain.setValueAtTime(.5, context.currentTime + 5);
+				gainNode.gain.value = 2;
+				gainNode.gain.setValueAtTime(.5, context.currentTime + 5);
 			});
 
 			var now = Date.now();

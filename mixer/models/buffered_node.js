@@ -45,10 +45,11 @@ window.BufferedNode = Backbone.Model.extend({
   },
 
   adjustGain: function(){
-    var gain = this.get('mixer').get('gain');
     var source = this.get('source');
-    if(source && source.playbackState == source.PLAYING_STATE)
-      source.gain.value = this.get('mixer').get('gain');
+    var gainNode = this.get('gainNode');
+    if(source && source.playbackState == source.PLAYING_STATE) {
+      gainNode.gain.value = this.get('mixer').get('gain');
+    }
   },
 
   adjustSpeed: function(byValue){
@@ -59,13 +60,16 @@ window.BufferedNode = Backbone.Model.extend({
     // console.log('play: ' + this.get('location'))
     var context = this.get('context');
     var source = context.createBufferSource();
+    var gainNode = context.createGain();
     source.buffer = this.get('buffer');
-    source.connect(context.destination);
-    source.gain.value = this.get('mixer').get('gain');
+    source.connect(gainNode);
+    gainNode.connect(context.destination)
+    gainNode.gain.value = this.get('mixer').get('gain');
 
     if(!when){ when = 0; }
     source.start(when, this.get('stoppedAt'));
     this.set('source', source);
+    this.set('gain', gainNode);
   },
 
   stop: function(){
