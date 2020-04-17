@@ -76,7 +76,7 @@
   <script type="text/javascript">
     $(function(){
 
-      var context = new webkitAudioContext();
+      var context = new AudioContext();
       var mixer = new Mixer({context: context});
       var first = new BufferedNode({location: '1-2.mp3', mixer: mixer, context: context});
       var second = new BufferedNode({location: '2.mp3', mixer: mixer, context: context});
@@ -134,7 +134,7 @@
           lastBlue = blue;
           lastOrange = orange;
           lastSelect = select;
-        };        
+        };
       });
 
 

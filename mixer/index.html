@@ -29,7 +29,7 @@
       height: 51px;
       border-radius: 26px;
       background-color: #dcdcdc;
-      border: 2px solid #aaa; 
+      border: 2px solid #aaa;
     }
     .right-side{
       float: right;
@@ -76,7 +76,7 @@
     @-webkit-keyframes rotateLp {
       0% {-webkit-transform: rotate(0deg);}
      100% {-webkit-transform: rotate(360deg);}
-    }    
+    }
 
     input[type=range] {
       -webkit-appearance: none;
@@ -115,15 +115,15 @@
       line-height: 0;
       height: 0;
     }
-     
+
     .clearfix {
       display: inline-block;
     }
-     
+
     html[xmlns] .clearfix {
       display: block;
     }
-     
+
     * html .clearfix {
       height: 1%;
     }
@@ -165,11 +165,11 @@
 
   <script type="text/javascript">
     $(function(){
-      var mixer = new Mixer({ context: new webkitAudioContext()});
+      var mixer = new Mixer({ context: new AudioContext()});
       var node1 = new BufferedNode({
         location: 'songs/daftperiment3.mp3',
         mixer: mixer
-      });    
+      });
       mixer.setTrack(node1);
       var mixerView = new MixerView({ el: $('#mixer'), model: mixer });
       mixerView.controllerIndex = 0;

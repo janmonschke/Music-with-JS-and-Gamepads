@@ -10,9 +10,9 @@
   <script type="text/javascript" src="drum_machine.js"></script>
   <script type="text/javascript" src="drum_machine_view.js"></script>
   <script type="text/javascript">
-    var context = new webkitAudioContext();
+    var context = new AudioContext();
     var looper = new Looper(context);
-    
+
     var mixer = new Mixer({ context: context });
     var base = new BufferedNode({context: context, location: '808-base.mp3', mixer: mixer});
     var snare = new BufferedNode({context: context, location: 'snare.wav', mixer: mixer});

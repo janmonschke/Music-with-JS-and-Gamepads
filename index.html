@@ -117,7 +117,7 @@
 				<section>
 					<h2>Let's oscillate!</h2>
 
-					<pre><code>var context = new webkitAudioContext();</code></pre>
+					<pre><code>var context = new AudioContext();</code></pre>
 					<pre class="fragment"><code>var oscillator = context.createOscillator();</code></pre>
 					<pre class="fragment"><code>oscillator.type = 0; // -> sine </code></pre>
 					<pre class="fragment"><code>oscillator.frequency.value = 22000;</code></pre>
@@ -144,7 +144,7 @@
 				</section>
 
 				<script type="text/javascript">
-					var oscContext = new webkitAudioContext();
+					var oscContext = new AudioContext();
 					var oscOscillator = null;
 					var oscSelect = document.getElementById('oscSelect');
 					var oscRange = document.getElementById('oscRange');
@@ -232,20 +232,20 @@
 
   source.start(0);
 </code></pre>
-						
+
 						<div class="playContainer fragment">
 							<button id="playFileFromUrl1">Play 'Get Lucky' from Daft Punk</button>
 							<button id="playFileFromUrl2" class="fragment">Play a GEMA-free song</button>
 							<input type="text" value="Status..." id="playFileFromUrlStatus" />
 						</div>
-						
+
 
 						<script type="text/javascript">
 							var playFileFromUrlStatus = document.getElementById('playFileFromUrlStatus');
 
 							document.getElementById('playFileFromUrl1').addEventListener('click', function(){
 								playFileFromUrlStatus.value = "Preparing...";
-								var plffuContext = new webkitAudioContext();
+								var plffuContext = new AudioContext();
 								var xhr = new XMLHttpRequest();
 						    xhr.open('GET', 'mixer/songs/gema.mp3', true);
 						    xhr.responseType = 'arraybuffer';
@@ -268,7 +268,7 @@
 
 							document.getElementById('playFileFromUrl2').addEventListener('click', function(){
 								playFileFromUrlStatus.value = "Preparing...";
-								var plffuContext = new webkitAudioContext();
+								var plffuContext = new AudioContext();
 								var xhr = new XMLHttpRequest();
 						    xhr.open('GET', 'mixer/songs/wearetherejects-2.mp3', true);
 						    xhr.responseType = 'arraybuffer';
@@ -358,7 +358,7 @@
 				</section>
 
 				<script type="text/javascript">
-					var effectContext = new webkitAudioContext();
+					var effectContext = new AudioContext();
 					var effectSelect = document.getElementById('effectSelect');
 					var playingEffect = false;
 
@@ -387,7 +387,7 @@
 					}
 
 					effectSelect.addEventListener('change', function(){
-						filter.type = parseInt(effectSelect.value);						
+						filter.type = parseInt(effectSelect.value);
 					});
 
 					document.getElementById('effectFrequency').addEventListener('change', function(){
@@ -463,7 +463,7 @@
 						<p>imagein how hard it would be to code that with settimeout, setinterval</p>
 						<p>NO MORE SETTIMEOUT!!!!</p>
 					</aside>
-				</section>	
+				</section>
 
 				<section>
 					<h2>Timing in Web Audio: Future Value(s)</h2>
@@ -642,7 +642,7 @@
 					<h2>Let's play</h2>
 
 					<!--p><a href="gamepad-demo.html">Gamepad demo</a></p-->
-										
+
 					<p class=""><a href="http://www.google.com/doodles/hurdles-2012" target="_blank">A Google doodle that uses the Gamepad API</a></p>
 
 				</section>
@@ -831,7 +831,7 @@
 				]
 			});
 
-			var context = new webkitAudioContext();
+			var context = new AudioContext();
 			var source = null;
 
 			window.buffers = {};
