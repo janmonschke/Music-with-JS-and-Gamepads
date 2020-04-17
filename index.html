@@ -153,7 +153,7 @@
 					var playOsc = function(frequency){
 						stopOsc();
 						oscOscillator = oscContext.createOscillator();
-						oscOscillator.type = parseInt(oscSelect.value);
+						oscOscillator.type = oscSelect.value;
 						oscOscillator.frequency.value = frequency;
 						oscOscillator.connect(oscContext.destination);
 						oscOscillator.start(0);
