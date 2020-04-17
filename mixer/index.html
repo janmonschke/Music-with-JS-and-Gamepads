@@ -54,39 +54,39 @@
     }
 
     .cue-button.stop{
-      -webkit-animation: pulseRed 0.5s infinite;
+      animation: pulseRed 0.5s infinite;
     }
 
     .cue-button.abort{
-      -webkit-animation: pulse 1.5s infinite;
+      animation: pulse 1.5s infinite;
     }
 
-    @-webkit-keyframes pulseRed {
+    @keyframes pulseRed {
       0% {background-color: #dcdcdc;}
      50% {background-color: red;}
      100% {background-color: #dcdcdc}
     }
 
-    @-webkit-keyframes pulse {
+    @keyframes pulse {
       0% {background-color: #dcdcdc;}
      50% {background-color: lightsalmon;}
      100% {background-color: #dcdcdc}
     }
 
-    @-webkit-keyframes rotateLp {
-      0% {-webkit-transform: rotate(0deg);}
-     100% {-webkit-transform: rotate(360deg);}
+    @keyframes rotateLp {
+      0% {transform: rotate(0deg);}
+     100% {transform: rotate(360deg);}
     }
 
     input[type=range] {
-      -webkit-appearance: none;
+      appearance: none;
       background-color: silver;
       width: 200px;
       height:20px;
     }
 
     input[type="range"]::-webkit-slider-thumb {
-       -webkit-appearance: none;
+      appearance: none;
       background-color: #666;
       opacity: 0.5;
       width: 10px;
@@ -100,11 +100,8 @@
       width: 700px;
     }
 
-    #lp{
-    }
-
     #lp.rotate{
-      -webkit-animation: rotateLp 1.5s linear infinite;
+      animation: rotateLp 1.5s linear infinite;
     }
 
     .clearfix:after {
